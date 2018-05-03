@@ -3,6 +3,8 @@ var https = require('https');
 
 exports.invite = function(req,res){
 
+	console.log(req.body)
+
 	var message = req.body.event.text
 
 	message = message.replace(/.*>/, "")
