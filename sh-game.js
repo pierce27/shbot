@@ -7,7 +7,9 @@ exports.invite = function(req,res){
 
 	message = message.replace(/.*>/, "")
 
-	if (message == invite) {
+	console.log(message)
+
+	if (message == "invite") {
 
 		var postData = querystring.stringify({
 		    'token' : 'xoxb-357799394404-9JtY2e4zKynZJqQNhk1HerD7',
