@@ -1,8 +1,10 @@
+bodyParser = require('body-parser');
 app = require('express')();
+app.use(bodyParser.json());
 
 app.post('/', function (req, res) {
   // res.send('hello world')
-  console.log(req)
+  console.log(req.body)
   res.send('challenge')
 })
 
