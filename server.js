@@ -17,11 +17,11 @@ app.post('/', function (req, res) {
 	if (message == "invite") {
 		console.log("INVITE HIM!!!!!!!!!!!!!")
 
-		var postData = querystring.stringify({
+		var postData = {
 		    'token' : 'xoxb-357799394404-9JtY2e4zKynZJqQNhk1HerD7',
 		    'channel': 'GAHQZUC6Q',
 		    'user': 'D3H23DLBT'
-		});
+		};
 
 		var options = {
 		  hostname: 'slack.com',
