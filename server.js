@@ -3,6 +3,7 @@ app = require('express')();
 app.use(bodyParser.json());
 shgame = require('./sh-game');
 var https = require('https');
+var querystring = require('querystring')
 
 
 app.post('/', function (req, res) {
@@ -19,11 +20,11 @@ app.post('/', function (req, res) {
 	if (message == "invite") {
 		console.log("INVITE HIM!!!!!!!!!!!!!")
 
-		var postData = {
+		var postData = querystring.stringify({
 		    'token' : 'xoxb-357799394404-9JtY2e4zKynZJqQNhk1HerD7',
 		    'channel': 'GAHQZUC6Q',
 		    'user': 'D3H23DLBT'
-		};
+		});
 
 		var options = {
 		  hostname: 'slack.com',
@@ -31,7 +32,8 @@ app.post('/', function (req, res) {
 		  path: 'api/channels.invite',
 		  method: 'POST',
 		  headers: {
-		       'Content-Type': 'application/json'
+		        'Content-Type': 'application/x-www-form-urlencoded',
+       			'Content-Length': postData.length
 		     }
 		};
 
