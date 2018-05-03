@@ -10,6 +10,7 @@ app.post('/', function (req, res) {
 	var message = req.body.event.text
 
 	message = message.replace(/.*>/, "")
+	message = message.replace(/\s/, "")
 
 	console.log(message)
 
