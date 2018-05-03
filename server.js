@@ -6,7 +6,6 @@ shgame = require('./sh-game')
 app.post('/', function (req, res) {
   // res.send('hello world')
 	shgame.invite
-	res.send(200)  
   // res.send(req.body.challenge)
 })
 

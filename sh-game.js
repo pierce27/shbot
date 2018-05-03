@@ -42,6 +42,7 @@ exports.invite = function(req,res){
 
 		req.write(postData);
 		req.end();	
+		res.sendStatus(200);
 
 
 	}
