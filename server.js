@@ -5,7 +5,7 @@ shgame = require('./sh-game');
 var https = require('https');
 var querystring = require('querystring')
 var Slack = require('slack-node');
-slack = new Slack('xoxp-357798077924-357480430801-358027485890-5bc5bc8656f49d26493b100f3ad71492');
+slack = new Slack('xoxb-358077013474-1q4oD2JVr4WMbid3huglPILX');
 
 
 app.post('/', function (req, res) {
