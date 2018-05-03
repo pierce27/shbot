@@ -18,6 +18,7 @@
   "homepage": "https://github.com/pierce27/shbot#readme",
   "dependencies": {
     "body-parser": "^1.18.2",
-    "express": "^4.16.3"
+    "express": "^4.16.3",
+    "https": "^1.0.0"
   }
 }
