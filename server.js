@@ -14,6 +14,7 @@ app.post('/', function (req, res) {
 	console.log(message)
 
 	if (message == "invite") {
+		console.log("INVITE HIM!!!!!!!!!!!!!")
 
 		var postData = querystring.stringify({
 		    'token' : 'xoxb-357799394404-9JtY2e4zKynZJqQNhk1HerD7',
@@ -46,10 +47,9 @@ app.post('/', function (req, res) {
 
 		req.write(postData);
 		req.end();	
-		res.sendStatus(200);
-
 
 	}
+	res.sendStatus(200);
   // res.send(req.body.challenge)
 })
 
