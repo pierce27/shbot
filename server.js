@@ -4,6 +4,8 @@ app.use(bodyParser.json());
 shgame = require('./sh-game');
 var https = require('https');
 var querystring = require('querystring')
+var Slack = require('slack-node');
+slack = new Slack('xoxb-357799394404-9JtY2e4zKynZJqQNhk1HerD7');
 
 
 app.post('/', function (req, res) {
@@ -18,6 +20,32 @@ app.post('/', function (req, res) {
 	console.log(message)
 
 	if (message == "invite") {
+		 
+		slack.api('channels.invite', {
+		  user:'D3H23DLBT',
+		  channel:'GAHQZUC6Q'
+		}, function(err, response){
+		  console.log(response);
+		});		
+
+	}
+	res.sendStatus(200);
+  // res.send(req.body.challenge)
+})
+
+app.get('/', function(req,res){
+	res.send('hellow world')
+})
+
+
+app.listen(process.env.PORT || 3000)
+
+
+
+
+
+
+
 		console.log("INVITE HIM!!!!!!!!!!!!!")
 
 		var postData = querystring.stringify({
@@ -52,15 +80,3 @@ app.post('/', function (req, res) {
 
 		req.write(postData);
 		req.end();	
-
-	}
-	res.sendStatus(200);
-  // res.send(req.body.challenge)
-})
-
-app.get('/', function(req,res){
-	res.send('hellow world')
-})
-
-
-app.listen(process.env.PORT || 3000)
