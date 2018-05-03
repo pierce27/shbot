@@ -16,6 +16,3 @@ app.get('/', function(req,res){
 
 
 app.listen(process.env.PORT || 3000)
-
-
-https://hooks.slack.com/services/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
