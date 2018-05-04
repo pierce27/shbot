@@ -14,7 +14,7 @@ var secretHitlerChannel = 'GAKDANLBG';
 var gameInProgress = false;
 
 var numberFascistOptions = [2,2,3,3,4,4];
-var facists = [];
+var fascists = [];
 var hitler = '';
 
 
@@ -50,19 +50,19 @@ app.post('/', function (req, res) {
 		  });
 
 		  // Set Fascists
-		  while (facsists.length <= numberFascistOptions[members.length - 1]){
+		  while (fascists.length <= numberFascistOptions[members.length - 1]){
 		  	fascistIndex = Math.floor(Math.random()*members.length);
 
-		  	facsists[fascists.length-1](members[fascistIndex]);
+		  	fascists[fascists.length-1](members[fascistIndex]);
 
 		  	members = members.filter(function( obj ) {
-    			return obj.field !== facsists[facsists.length -1];
+    			return obj.field !== fascists[facsists.length -1];
 		  	})
 		  }
 
 
 		  // Set Hitler
-		  hitler = fascists[Math.floor(Math.random()*facsists.length)];
+		  hitler = fascists[Math.floor(Math.random()*fascists.length)];
 
 		  // Remove from fascists
 		  fascists = fascists.filter(function( obj ) {
@@ -70,7 +70,7 @@ app.post('/', function (req, res) {
 		  })		  
 
 		  // Invite Fascists
-		  for (var i = facsists.length - 1; i >= 0; i--) {
+		  for (var i = fascists.length - 1; i >= 0; i--) {
 
 			  slack.api('groups.invite', {
 			  	user: members[fascists[i]],
