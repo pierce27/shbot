@@ -5,7 +5,7 @@ shgame = require('./sh-game');
 var https = require('https');
 var querystring = require('querystring')
 var Slack = require('slack-node');
-slack = new Slack('xoxp-2151341983-48550814807-359125055207-56deb3121be0bf240837ca49c5d96d40');	
+slack = new Slack(process.env.SLACK_AUTH);	
 
 
 app.post('/', function (req, res) {
@@ -20,12 +20,31 @@ app.post('/', function (req, res) {
 	console.log(message)
 
 	if (message == "invite") {
-		 
+		
+		// Get Member list
 		slack.api('groups.info', {
 		  // user:'D3H23DLBT',
-		  channel:'GAHQZUC6Q'
+		  channel:'GAKDANLBG'
 		}, function(err, response){
 		  console.log(response);
+
+		  var members = group.members
+
+		  // Remove bot from members
+		  members = members.filter(function( obj ) {
+    		return obj.field !== 'UAJ290DDY';
+		  });
+
+		  // Invite randomn member to facsists
+		  slack.api('groups.invite', {
+		  	user: members[Math.floor(Math.random()*members.length)],
+		  	channel: 'GAHQZUC6Q'
+		  }, function(err, response){
+
+		  	console.log(response)
+
+		  })
+
 		});		
 
 	}
