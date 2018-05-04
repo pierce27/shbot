@@ -14,7 +14,7 @@ var secretHitlerChannel = 'GAKDANLBG';
 var gameInProgress = false;
 
 var numberFascistOptions = [2,2,3,3,4,4];
-var facsists = [];
+var facists = [];
 var hitler = '';
 
 
