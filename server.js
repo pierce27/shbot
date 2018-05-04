@@ -16,6 +16,10 @@ var gameInProgress = false;
 var numberFascistOptions = [2,2,3,3,4,4];
 var fascists = [];
 var hitler = '';
+var liberals = [];
+var members = [];
+var presidentIndex = 0;
+var chancellor = '';
 
 
 app.post('/', function (req, res) {
@@ -33,7 +37,21 @@ app.post('/', function (req, res) {
 
 	if (message == "new game") {
 
-		gameInProgress == true;
+		if (gameInProgress == true){
+
+		  slack.api('chat.postMessage', {
+		  	channel: channel,
+		  	text: 'Game In Progress'
+
+		  }, function(err, response){
+
+		  	console.log(response)
+
+		  })				
+		} else {
+			gameInProgress == true;
+		}
+
 		
 		// Get Member list
 		slack.api('groups.info', {
@@ -42,20 +60,22 @@ app.post('/', function (req, res) {
 		}, function(err, response){
 		  console.log(response);
 
-		  var members = response.group.members
+		  members = response.group.members
 
 		  // Remove bot from members
 		  members = members.filter(function( obj ) {
     		return obj.field !== 'UAJ290DDY';
 		  });
 
+		  liberals = members
+
 		  // Set Fascists
 		  while (fascists.length <= numberFascistOptions[members.length - 1]){
 		  	fascistIndex = Math.floor(Math.random()*members.length);
 
-		  	fascists.push(members[fascistIndex]);
+		  	fascists.push(liberals[fascistIndex]);
 
-		  	members = members.filter(function( obj ) {
+		  	liberals = liberals.filter(function( obj ) {
     			return obj.field !== fascists[fascists.length -1];
 		  	})
 		  }
@@ -90,10 +110,19 @@ app.post('/', function (req, res) {
 
 		  	console.log(response)
 
-		  })			  
+		  })
 
+
+		  slack.api('chat.postMessage', {
+		  	channel: secretHitlerChannel,
+		  	text: 'President is now <@' + members[presidentIndex] + '>'
+
+		  }, function(err, response){
+
+		  	console.log(response)
+
+		  })
 		  
-
 
 		});		
 
@@ -101,6 +130,7 @@ app.post('/', function (req, res) {
 
 
 
+	// Invite user to secret hitler
 	if (message == 'invite me'){
 
 		if(gameInProgress == true){
@@ -131,10 +161,25 @@ app.post('/', function (req, res) {
 	}
 
 
+	// End the game
+	if (message == 'end game'){
+
+		gameInProgress = false;
+
+
+	}
+
+
 
 	res.sendStatus(200);
   // res.send(req.body.challenge)
 })
+
+
+
+
+
+
 
 app.get('/', function(req,res){
 	res.send('hellow world')
