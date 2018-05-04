@@ -10,6 +10,7 @@ slack = new Slack(process.env.SLACK_AUTH);
 var hitlerChannel = 'GAJBE9AFN';
 var facsistChannel = 'GAHQZUC6Q';
 var secretHitlerChannel = 'GAKDANLBG';
+var presidentChannel = ''
 
 var gameInProgress = false;
 
@@ -19,7 +20,11 @@ var hitler = '';
 var liberals = [];
 var members = [];
 var presidentIndex = 0;
+var president = '';
 var chancellor = '';
+
+var yesVotes = [];
+var noVotes = [];
 
 
 app.post('/', function (req, res) {
@@ -30,7 +35,7 @@ app.post('/', function (req, res) {
 	var channel = req.body.event.channel;
 	var user = req.body.event.user;
 
-	message = message.replace(/.*>/, "")
+	message = message.replace(/.*>\s/, "")
 	message = message.replace(/\s/, "")
 
 	console.log(message)
@@ -113,10 +118,20 @@ app.post('/', function (req, res) {
 
 		  })
 
+		  president = members[presidentIndex];
+
+     	  slack.api('groups.invite', {
+			user: president,
+			channel: presidentChannel
+		  }, function(err, response){
+
+			console.log(response)
+
+		  })			  
 
 		  slack.api('chat.postMessage', {
 		  	channel: secretHitlerChannel,
-		  	text: 'President is now <@' + members[presidentIndex] + '>. Nominate a Chancelor!'
+		  	text: 'President is now <@' + president + '>. Nominate a Chancelor by @Secret Hitler Bot "I nominate @user" !'
 
 		  }, function(err, response){
 
@@ -175,11 +190,137 @@ app.post('/', function (req, res) {
 	}
 
 
+	// Nominate chancellor
+	if (string.indexOf('I nominate') !== -1 ){
+
+		if (user !== president){
+
+			slack.api('groups.postMessage', {
+				channel: secretHitlerChannel,
+				text: 'You cannot nominate chancellor, you are not President!'
+			}, function(err, response){
+
+				console.log(response)
+
+			})
+
+
+		} else {
+			chancellor = message.replace(/.*<@/, '')
+			chancellor = chancellor.replace(/>/, '')
+			chancellor = chancellor.replace(/\s/, '')
+
+			slack.api('groups.postMessage', {
+				channel: secretHitlerChannel,
+				text: 'Vote if you would like <@' + chancellor +'> as chancellor by telling me I vote yes or I vote no'
+			}, function(err, response){
+
+				console.log(response)
+
+			})						
+
+		}
+
+	}
+
+
+	// Vote for chancellor
+	if (string.indexOf('I vote') !== -1){
+
+		if(yesVotes.indexOf(user) == -1 && noVotes.indexOf(user) == -1){
+			var vote = message.replace(/'I vote '/,'')
+
+			if(vote == 'yes'){
+				yesVotes.push(user);
+			} else if (vote == 'no'){
+				noVotes.push(user);
+			} else {
+				slack.api('groups.postMessage', {
+					channel: secretHitlerChannel,
+					text: 'Vote for <@' + chancellor +'> as chancellor by telling me "I vote yes" or "I vote no"'
+				}, function(err, response){
+
+					console.log(response)
+
+				})					
+			}
+
+			var totalVotes = yesVotes.length + noVotes.length;
+
+			if(totalVotes < members.length){
+				
+				slack.api('groups.postMessage', {
+					channel: secretHitlerChannel,
+					text: 'There are ' + totalVotes - members.length + ' votes remaining'
+				}, function(err, response){
+
+					console.log(response)
+
+				})					
+
+			} else {
+
+				if(noVotes.length > yesVotes.length){
+					if(presidentIndex < members.length){
+						presidentIndex = presidentIndex + 1;
+					} else {
+						presidentIndex = 0;
+					}
+
+					slack.api('groups.kick', {
+						user: president,
+						channel: presidentChannel
+					}, function(err, response){
+
+						console.log(response)
+
+					})						
+
+					president = members[presidentIndex];
+
+					slack.api('groups.postMessage', {
+						channel: secretHitlerChannel,
+						text: 'Resolution for <@' + chancellor '> as chancellor not passed <@' + president '> is now president. Nominate a chancellor!'
+					}, function(err, response){
+
+						console.log(response)
+
+					})
+
+					slack.api('groups.invite', {
+						user: president,
+						channel: presidentChannel
+					}, function(err, response){
+
+						console.log(response)
+
+					})											
+				} else {
+
+					slack.api('groups.postMessage', {
+						channel: secretHitlerChannel,
+						text: 'The resolution for <@' + chancellor '> as chancellor has passed!!'
+					}, function(err, response){
+
+						console.log(response)
+
+					})
+
+					// TODO Resolution logic
+				}
+			}
+
+
+		}
+	}
+
+
+
+
 
 	res.sendStatus(200);
   // res.send(req.body.challenge)
 })
-
 
 
 
