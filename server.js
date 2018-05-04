@@ -53,7 +53,7 @@ app.post('/', function (req, res) {
 		  while (facsists.length <= numberFascistOptions[members.length - 1]){
 		  	fascistIndex = Math.floor(Math.random()*members.length);
 
-		  	facsists.append(members[fascistIndex]);
+		  	facsists.[fascists.length-1](members[fascistIndex]);
 
 		  	members = members.filter(function( obj ) {
     			return obj.field !== facsists[facsists.length -1];
