@@ -21,8 +21,8 @@ app.post('/', function (req, res) {
 
 	if (message == "invite") {
 		 
-		slack.api('channels.invite', {
-		  user:'D3H23DLBT',
+		slack.api('channels.info', {
+		  // user:'D3H23DLBT',
 		  channel:'GAHQZUC6Q'
 		}, function(err, response){
 		  console.log(response);
