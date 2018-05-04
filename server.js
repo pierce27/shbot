@@ -10,7 +10,8 @@ slack = new Slack(process.env.SLACK_AUTH);
 var hitlerChannel = 'GAJBE9AFN';
 var facsistChannel = 'GAHQZUC6Q';
 var secretHitlerChannel = 'GAKDANLBG';
-var presidentChannel = ''
+var presidentChannel = 'GAHVAAB5E';
+var chancellorChannel = 'GAJDQ3PM2';
 
 var gameInProgress = false;
 
@@ -191,7 +192,7 @@ app.post('/', function (req, res) {
 
 
 	// Nominate chancellor
-	if (string.indexOf('I nominate') !== -1 ){
+	if (message.indexOf('I nominate') !== -1 ){
 
 		if (user !== president){
 
