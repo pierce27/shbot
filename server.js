@@ -23,7 +23,7 @@ app.post('/', function (req, res) {
 		 
 		slack.api('channels.info', {
 		  // user:'D3H23DLBT',
-		  channel:'GAHQZUC6Q'
+		  channel:'CAJG0RLHY'
 		}, function(err, response){
 		  console.log(response);
 		});		
