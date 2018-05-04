@@ -280,7 +280,7 @@ app.post('/', function (req, res) {
 
 					slack.api('groups.postMessage', {
 						channel: secretHitlerChannel,
-						text: 'Resolution for <@' + chancellor '> as chancellor not passed <@' + president '> is now president. Nominate a chancellor!'
+						text: 'Resolution for <@' + chancellor + '> as chancellor not passed <@' + president + '> is now president. Nominate a chancellor!'
 					}, function(err, response){
 
 						console.log(response)
