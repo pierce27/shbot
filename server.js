@@ -56,7 +56,7 @@ app.post('/', function (req, res) {
 		  	fascists.push(members[fascistIndex]);
 
 		  	members = members.filter(function( obj ) {
-    			return obj.field !== fascists[facsists.length -1];
+    			return obj.field !== fascists[fascists.length -1];
 		  	})
 		  }
 
