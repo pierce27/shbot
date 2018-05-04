@@ -229,7 +229,7 @@ app.post('/', function (req, res) {
 	if (message.indexOf('I vote') !== -1){
 
 		if(yesVotes.indexOf(user) == -1 && noVotes.indexOf(user) == -1){
-			var vote = message.replace(/'I vote '/,'')
+			var vote = message.replace(/I vote /,'')
 
 			if(vote == 'yes'){
 				yesVotes.push(user);
@@ -245,6 +245,9 @@ app.post('/', function (req, res) {
 
 				})					
 			}
+
+			console.log('YES VOTES: ' + yesVotes);
+			console.log('NO VOTES: ' + noVotes);
 
 			var totalVotes = yesVotes.length + noVotes.length;
 
