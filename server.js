@@ -73,7 +73,7 @@ app.post('/', function (req, res) {
 		  for (var i = facsists.length - 1; i >= 0; i--) {
 
 			  slack.api('groups.invite', {
-			  	user: members[],
+			  	user: members[fascists[i]],
 			  	channel: facsistChannel
 			  }, function(err, response){
 
