@@ -299,7 +299,7 @@ app.post('/', function (req, res) {
 
 					slack.api('groups.postMessage', {
 						channel: secretHitlerChannel,
-						text: 'The resolution for <@' + chancellor '> as chancellor has passed!!'
+						text: 'The resolution for <@' + chancellor + '> as chancellor has passed!!'
 					}, function(err, response){
 
 						console.log(response)
