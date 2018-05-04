@@ -115,13 +115,17 @@ app.post('/', function (req, res) {
 
 		  slack.api('chat.postMessage', {
 		  	channel: secretHitlerChannel,
-		  	text: 'President is now <@' + members[presidentIndex] + '>'
+		  	text: 'President is now <@' + members[presidentIndex] + '>. Nominate a Chancelor!'
 
 		  }, function(err, response){
 
 		  	console.log(response)
 
 		  })
+
+		  console.log('MEMBERS: ' + members);
+		  console.log('LIBERALS: ' + liberals);
+		  console.log('FASCISTS: ' + fascists);
 		  
 
 		});		
