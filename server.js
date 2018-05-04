@@ -26,16 +26,16 @@ app.post('/', function (req, res) {
 
 	// console.log(message)
 
-	if (message == "invite") {
+	// if (message == "invite") {
 		 
-		slack.api('channels.invite', {
-		  user:'D3H23DLBT',
-		  channel:'GAHQZUC6Q'
-		}, function(err, response){
-		  console.log(response);
-		});		
+	// 	slack.api('channels.invite', {
+	// 	  user:'D3H23DLBT',
+	// 	  channel:'GAHQZUC6Q'
+	// 	}, function(err, response){
+	// 	  console.log(response);
+	// 	});		
 
-	}
+	// }
 	res.sendStatus(200);
   // res.send(req.body.challenge)
 })
