@@ -63,9 +63,10 @@ app.post('/', function (req, res) {
 		  members = response.group.members
 
 		  // Remove bot from members
-		  members = members.filter(function( obj ) {
-    		return obj.field !== 'UAJ290DDY';
-		  });
+		  var botIndex = members.indexOf('UAJ290DDY');
+		  if (botIndex >= 0) {
+     		  members.splice( botIndex, 1 );
+	      }		  
 
 		  liberals = members
 
