@@ -28,7 +28,7 @@ app.post('/', function (req, res) {
 		}, function(err, response){
 		  console.log(response);
 
-		  var members = group.members
+		  var members = response.group.members
 
 		  // Remove bot from members
 		  members = members.filter(function( obj ) {
