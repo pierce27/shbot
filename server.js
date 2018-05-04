@@ -196,7 +196,7 @@ app.post('/', function (req, res) {
 
 		if (user !== president){
 
-			slack.api('groups.postMessage', {
+			slack.api('chat.postMessage', {
 				channel: secretHitlerChannel,
 				text: 'You cannot nominate chancellor, you are not President!'
 			}, function(err, response){
@@ -211,7 +211,7 @@ app.post('/', function (req, res) {
 			chancellor = chancellor.replace(/>/, '')
 			chancellor = chancellor.replace(/\s/, '')
 
-			slack.api('groups.postMessage', {
+			slack.api('chat.postMessage', {
 				channel: secretHitlerChannel,
 				text: 'Vote if you would like <@' + chancellor +'> as chancellor by telling me I vote yes or I vote no'
 			}, function(err, response){
@@ -236,7 +236,7 @@ app.post('/', function (req, res) {
 			} else if (vote == 'no'){
 				noVotes.push(user);
 			} else {
-				slack.api('groups.postMessage', {
+				slack.api('chat.postMessage', {
 					channel: secretHitlerChannel,
 					text: 'Vote for <@' + chancellor +'> as chancellor by telling me "I vote yes" or "I vote no"'
 				}, function(err, response){
@@ -250,7 +250,7 @@ app.post('/', function (req, res) {
 
 			if(totalVotes < members.length){
 				
-				slack.api('groups.postMessage', {
+				slack.api('chat.postMessage', {
 					channel: secretHitlerChannel,
 					text: 'There are ' + totalVotes - members.length + ' votes remaining'
 				}, function(err, response){
@@ -279,7 +279,7 @@ app.post('/', function (req, res) {
 
 					president = members[presidentIndex];
 
-					slack.api('groups.postMessage', {
+					slack.api('chat.postMessage', {
 						channel: secretHitlerChannel,
 						text: 'Resolution for <@' + chancellor + '> as chancellor not passed <@' + president + '> is now president. Nominate a chancellor!'
 					}, function(err, response){
@@ -298,7 +298,7 @@ app.post('/', function (req, res) {
 					})											
 				} else {
 
-					slack.api('groups.postMessage', {
+					slack.api('chat.postMessage', {
 						channel: secretHitlerChannel,
 						text: 'The resolution for <@' + chancellor + '> as chancellor has passed!!'
 					}, function(err, response){
