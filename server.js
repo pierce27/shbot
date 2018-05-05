@@ -227,6 +227,7 @@ app.post('/', function (req, res) {
 			chancellor = message.replace(/.*<@/, '')
 			chancellor = chancellor.replace(/>/, '')
 			chancellor = chancellor.replace(/\s/, '')
+			chancellor = chancellor.toUpperCase()
 
 			slack.api('chat.postMessage', {
 				channel: secretHitlerChannel,
