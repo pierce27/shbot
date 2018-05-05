@@ -198,7 +198,7 @@ app.post('/', function (req, res) {
 
 
 	// Nominate chancellor
-	if (message.indexOf('I nominate') !== -1 && req.body.event.type == 'message'){
+	if (message.indexOf('I nominate') !== -1){
 
 		if (user !== president){
 
