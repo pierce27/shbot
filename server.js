@@ -194,7 +194,7 @@ app.post('/', function (req, res) {
 
 
 	// Nominate chancellor
-	if (message.indexOf('I nominate') !== -1 && user != botUser){
+	if (message.indexOf('I nominate') !== -1 && req.body.event.type == 'message'){
 
 		if (user !== president){
 
@@ -228,7 +228,7 @@ app.post('/', function (req, res) {
 
 
 	// Vote for chancellor
-	if (message.indexOf('I vote') !== -1){
+	if (message.indexOf('I vote') !== -1 && req.body.event.type == 'message'{
 
 		if(yesVotes.indexOf(user) == -1 && noVotes.indexOf(user) == -1){
 			var vote = message.replace(/I vote /,'')
