@@ -274,7 +274,7 @@ app.post('/', function (req, res) {
 			} else {
 
 				if(noVotes.length > yesVotes.length){
-					if(presidentIndex < members.length){
+					if(presidentIndex < members.length - 1){
 						presidentIndex = presidentIndex + 1;
 					} else {
 						presidentIndex = 0;
