@@ -193,6 +193,16 @@ app.post('/', function (req, res) {
 	if (message == 'end game'){
 
 		gameInProgress = false;
+		fascists = [];
+		hitler = '';
+		liberals = [];
+		members = [];
+		presidentIndex = 0;
+		president = '';
+		chancellor = '';
+		yesVotes = [];
+		noVotes = [];
+		votesLeft = 0;
 
 
 	}
@@ -311,7 +321,7 @@ app.post('/', function (req, res) {
 
 					yesVotes = []
 					noVotes = []										
-					
+
 				} else {
 
 					slack.api('chat.postMessage', {
