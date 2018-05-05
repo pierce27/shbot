@@ -307,7 +307,11 @@ app.post('/', function (req, res) {
 
 						console.log(response)
 
-					})											
+					})	
+
+					yesVotes = []
+					noVotes = []										
+					
 				} else {
 
 					slack.api('chat.postMessage', {
