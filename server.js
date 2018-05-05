@@ -247,7 +247,7 @@ app.post('/', function (req, res) {
 	if (message.indexOf('i vote') !== -1 && req.body.event.type == 'message'){
 
 		if(yesVotes.indexOf(user) == -1 && noVotes.indexOf(user) == -1){
-			var vote = message.replace(/I vote /,'')
+			var vote = message.replace(/i vote /,'')
 
 			if(vote == 'yes'){
 				yesVotes.push(user);
