@@ -38,7 +38,7 @@ app.post('/', function (req, res) {
 	var channel = req.body.event.channel;
 	var user = req.body.event.user;
 
-	if(req.body.type == 'event_callback'){
+	if(req.body.event.sub_type == 'bot_message'){
 		res.sendStatus(200)
 		return
 	}
