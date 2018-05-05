@@ -15,7 +15,7 @@ var chancellorChannel = 'GAJDQ3PM2';
 
 var gameInProgress = false;
 
-var numberFascistOptions = [2,2,3,3,4,4];
+var numberFascistOptions = [1,1,1,1,2,2,3,3,4,4];
 var fascists = [];
 var hitler = '';
 var liberals = [];
@@ -26,6 +26,7 @@ var chancellor = '';
 
 var yesVotes = [];
 var noVotes = [];
+var votesLeft = 0;
 
 
 app.post('/', function (req, res) {
@@ -252,10 +253,12 @@ app.post('/', function (req, res) {
 			var totalVotes = yesVotes.length + noVotes.length;
 
 			if(totalVotes < members.length){
+
+
 				
 				slack.api('chat.postMessage', {
 					channel: secretHitlerChannel,
-					text: 'There are ' + totalVotes - members.length + ' votes remaining'
+					text:  votesLeft + ' votes remaining, ' + yesVotes.length + ' voted yes, ' + noVotes.length + 'voted no'
 				}, function(err, response){
 
 					console.log(response)
@@ -315,11 +318,19 @@ app.post('/', function (req, res) {
 			}
 
 
+		} else {
+
+			slack.api('chat.postMessage', {
+				channel: secretHitlerChannel,
+				text: 'You already voted <@' + user + '>'
+			}, function(err, response){
+
+				console.log(response)
+
+			})			
+
 		}
 	}
-
-
-
 
 
 	res.sendStatus(200);
