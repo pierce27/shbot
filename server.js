@@ -40,6 +40,7 @@ app.post('/', function (req, res) {
 
 	if(req.body.type == 'event_callback'){
 		res.sendStatus(200)
+		return
 	}
 
 	// message = message.replace(/.*>\s/, "")
