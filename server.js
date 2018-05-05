@@ -12,6 +12,7 @@ var facsistChannel = 'GAHQZUC6Q';
 var secretHitlerChannel = 'GAKDANLBG';
 var presidentChannel = 'GAHVAAB5E';
 var chancellorChannel = 'GAJDQ3PM2';
+var botUser = 'UAJ290DDY';
 
 var gameInProgress = false;
 
@@ -193,7 +194,7 @@ app.post('/', function (req, res) {
 
 
 	// Nominate chancellor
-	if (message.indexOf('I nominate') !== -1 ){
+	if (message.indexOf('I nominate') !== -1 && user != botUser){
 
 		if (user !== president){
 
