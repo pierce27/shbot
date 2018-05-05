@@ -38,6 +38,10 @@ app.post('/', function (req, res) {
 	var channel = req.body.event.channel;
 	var user = req.body.event.user;
 
+	if(req.body.type == 'event_callback'){
+		res.sendStatus(200)
+	}
+
 	// message = message.replace(/.*>\s/, "")
 	// message = message.replace(/\s/, "")
 
@@ -259,7 +263,7 @@ app.post('/', function (req, res) {
 				
 				slack.api('chat.postMessage', {
 					channel: secretHitlerChannel,
-					text:  votesLeft + ' votes remaining, ' + yesVotes.length + ' voted yes, ' + noVotes.length + 'voted no'
+					text:  votesLeft + ' votes remaining, ' + yesVotes.length + ' voted yes, ' + noVotes.length + ' voted no'
 				}, function(err, response){
 
 					console.log(response)
