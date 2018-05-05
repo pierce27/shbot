@@ -34,7 +34,7 @@ app.post('/', function (req, res) {
   // res.send('hello world')
 	console.log(req.body)
 
-	var message = req.body.event.text;
+	var message = req.body.event.text.toLowerCase();
 	var channel = req.body.event.channel;
 	var user = req.body.event.user;
 
