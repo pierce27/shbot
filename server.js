@@ -37,7 +37,7 @@ app.post('/', function (req, res) {
 	var channel = req.body.event.channel;
 	var user = req.body.event.user;
 
-	message = message.replace(/.*>\s/, "")
+	// message = message.replace(/.*>\s/, "")
 	// message = message.replace(/\s/, "")
 
 	console.log(message)
