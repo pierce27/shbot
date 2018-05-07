@@ -523,10 +523,49 @@ app.post('/component', function(req,res){
 		if (presidentialPolicyOptions.length > 1){
 			res.sendStatus(200)
 			return	
+		} else {
+			res.sendStatus(200)
+			policies.push(presidentialPolicyOptions[0])
+
+			presidentialPolicyOptions = []
+
+			var attachments = [
+	        	{
+	            "text": "Choose between these policies",
+	            "fallback": "You are unable to choose",
+	            "callback_id": "chancellor_policy_callback",
+	            "color": "#3AA3E3",
+	            "attachment_type": "default",
+	            "actions": []
+				}
+			]
+
+			attachments[0].actions = createPresidentActions(chancellorPolicyOptions)
+
+			var attachmentString = JSON.stringify(attachments);
+
+			slack.api('chat.postMessage', {
+				"channel": chancellorChannel,
+			    "text": "President has given you these policies. Select a policy to enact.",
+			    "attachments": attachmentString
+			}, function(err, response){
+
+				console.log(response)
+
+			})				
+
 		}
+
+		return
 		
 
 	}
+
+	// if(callback_id == 'chancellor_policy_callback'){
+
+		
+
+	// }
 
 	
 })
