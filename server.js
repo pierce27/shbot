@@ -1,7 +1,7 @@
 bodyParser = require('body-parser');
 app = require('express')();
+app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
-app.use(bodyParser.urlencoded({ extended: false }));
 var https = require('https');
 var querystring = require('querystring')
 var Slack = require('slack-node');
