@@ -505,12 +505,12 @@ app.post('/component', function(req,res){
 
 		chancellorPolicyOptions.push(presidentialPolicyOptions[presidentialPolicyChoiceIndex])
 
-		var originalAttachments = JSON.parse(originalMessage['attachments'])
+		// var originalAttachments = JSON.parse(originalMessage['attachments'])
 
-		originalAttachments.actions[0].splice(presidentialPolicyChoiceIndex, 1)
+		originalMessage.attachements.actions.splice(presidentialPolicyChoiceIndex, 1)
 		presidentialPolicyOptions.splice(presidentialPolicyChoiceIndex, 1)
 
-		originalMessage['attachments'] = JSON.stringify(originalAttachments)
+		// originalMessage.actions[0] = JSON.stringify(originalAttachments)
 
 		if (presidentialPolicyOptions.length > 1){
 			res.send(originalMessage)
