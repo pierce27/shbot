@@ -465,6 +465,7 @@ app.post('/', function (req, res) {
 
 app.post('/component', function(req,res){
 	console.log(req.body)
+	res.sendStatus(200)
 })
 
 
