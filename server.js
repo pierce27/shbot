@@ -418,6 +418,8 @@ app.post('/component', function(req,res){
 
 			} else {
 
+				res.sendStatus(200)
+
 				slack.api('chat.postMessage', {
 					channel: secretHitlerChannel,
 					text: 'The resolution for <@' + chancellor + '> as chancellor has passed!!'
