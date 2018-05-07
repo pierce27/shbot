@@ -501,13 +501,15 @@ app.post('/component', function(req,res){
 
 		var originalMessage = payload.original_message
 
+		console.log(originalMessage.attachments)
+
 		var presidentialPolicyChoiceIndex = payload.actions['value']
 
 		chancellorPolicyOptions.push(presidentialPolicyOptions[presidentialPolicyChoiceIndex])
 
 		// var originalAttachments = JSON.parse(originalMessage['attachments'])
 
-		originalMessage.attachements.actions.splice(presidentialPolicyChoiceIndex, 1)
+		originalMessage.attachments.actions.splice(presidentialPolicyChoiceIndex, 1)
 		presidentialPolicyOptions.splice(presidentialPolicyChoiceIndex, 1)
 
 		// originalMessage.actions[0] = JSON.stringify(originalAttachments)
