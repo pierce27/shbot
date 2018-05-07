@@ -455,7 +455,7 @@ app.post('/component', function(req,res){
 
 						// console.log(actions)
 
-						attachments[0].actions = createPresidentActions(presidentialPolicyOptions);
+						attachments[0].actions = createActions(presidentialPolicyOptions);
 
 						var attachmentString = JSON.stringify(attachments);
 
@@ -521,10 +521,11 @@ app.post('/component', function(req,res){
 			}, function(err, response){
 
 				console.log(response)
+				
 
-			})				
-			res.sendStatus(200)
-			return	
+			})			
+			res.sendStatus(200)	
+			
 		} else {
 			policies.push(presidentialPolicyOptions[0])
 
@@ -541,9 +542,14 @@ app.post('/component', function(req,res){
 				}
 			]
 
-			attachments[0].actions = createPresidentActions(chancellorPolicyOptions)
+			console.log(chancellorPolicyOptionsa)
+			attachments[0].actions = createActions(chancellorPolicyOptions)
+			console.log(attachments)
+			console.log(attachments[0].actions)
 
 			var attachmentString = JSON.stringify(attachments);
+
+
 
 			slack.api('chat.postMessage', {
 				"channel": chancellorChannel,
@@ -552,12 +558,14 @@ app.post('/component', function(req,res){
 			}, function(err, response){
 
 				console.log(response)
+				
 
 			})				
+			res.sendStatus(200)
 
 		}
 
-		res.sendStatus(200)
+		
 		return
 		
 
@@ -572,7 +580,7 @@ app.post('/component', function(req,res){
 	
 })
 
-var createPresidentActions = function(options){
+var createActions = function(options){
 	
 	var actionsArray = []
 
