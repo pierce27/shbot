@@ -449,7 +449,7 @@ app.post('/component', function(req,res){
 				            "callback_id": "presidential_policy_choice",
 				            "color": "#3AA3E3",
 				            "attachment_type": "default",
-				            "actions": ''
+				            "actions": []
 							}
 						]
 
@@ -495,7 +495,7 @@ app.post('/component', function(req,res){
             "callback_id": "presidential_policy_choice",
             "color": "#3AA3E3",
             "attachment_type": "default",
-            "actions": ''
+            "actions": []
 			}
 		]
 
