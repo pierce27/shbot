@@ -470,7 +470,7 @@ app.post('/component', function(req,res){
 
 	console.log(req.body.payload['actions'])
 
-	var payload = qs.parse(req.body.payload);
+	var payload = JSON.parse(req.body['payload']);
 
 	console.log(payload)
 	console.log(payload.actions)
