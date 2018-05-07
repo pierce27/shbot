@@ -510,7 +510,7 @@ app.post('/component', function(req,res){
 				}
 			]
 
-			attachments[0].actions = createPresidentActions(presidentialPolicyOptions)
+			attachments[0].actions = createActions(presidentialPolicyOptions)
 
 			var attachmentString = JSON.stringify(attachments);
 
