@@ -321,13 +321,15 @@ app.post('/component', function(req,res){
 
 	var payload = JSON.parse(req.body['payload']);
 
-	console.log(payload)
+	console.log(payload);
 
-	var vote = payload.actions[0].value
+	var vote = payload.actions[0].value;
 
-	var user = payload.user.id
+	var user = payload.user.id;
 
-	if (payload.callback_id == "chancellor_vote"){
+	var callbackId = payload.callback_id;
+
+	if (callbackId == "chancellor_vote"){
 
 		if(vote == 'yes'){
 			yesVotes.push(user);
@@ -492,7 +494,7 @@ app.post('/component', function(req,res){
 		return
 	}
 
-	if(payload.callback_id == 'presidential_policy_choice'){
+	if(callbackId == 'presidential_policy_choice'){
 
 		console.log(payload)
 
@@ -588,7 +590,7 @@ app.post('/component', function(req,res){
 
 	}
 
-	if(callback_id == 'chancellor_policy_callback'){
+	if(callbackId == 'chancellor_policy_callback'){
 
 		var chancellorPolicyChoiceIndex = payload.actions[0].value;
 		chancellorPolicyChoice = chancellorPolicyOptions[chancellorPolicyChoiceIndex]
