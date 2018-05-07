@@ -491,40 +491,41 @@ app.post('/component', function(req,res){
 
 		chancellorPolicyOptions.push(presidentialPolicyOptions[presidentialPolicyChoiceIndex])
 
-		presidentialPolicyOptions.splice(presidentialPolicyChoiceIndex, 1)		
+		presidentialPolicyOptions.splice(presidentialPolicyChoiceIndex, 1)	
 
-		var attachments = [
-        	{
-            "text": "Choose between these policies",
-            "fallback": "You are unable to choose",
-            "callback_id": "presidential_policy_choice",
-            "color": "#3AA3E3",
-            "attachment_type": "default",
-            "actions": []
-			}
-		]
-
-		attachments[0].actions = createPresidentActions(presidentialPolicyOptions)
-
-		var attachmentString = JSON.stringify(attachments);
-
-		slack.api('chat.postMessage', {
-			"channel": presidentChannel,
-		    "text": "Select 1 more policy for the chancellor",
-		    "attachments": attachmentString
-		}, function(err, response){
-
-			console.log(response)
-
-		})			
+		console.log(presidentialPolicyOptions)			
 
 		// originalMessage.actions[0] = JSON.stringify(originalAttachments)
 
 		if (presidentialPolicyOptions.length > 1){
+
+			var attachments = [
+	        	{
+	            "text": "Choose between these policies",
+	            "fallback": "You are unable to choose",
+	            "callback_id": "presidential_policy_choice",
+	            "color": "#3AA3E3",
+	            "attachment_type": "default",
+	            "actions": []
+				}
+			]
+
+			attachments[0].actions = createPresidentActions(presidentialPolicyOptions)
+
+			var attachmentString = JSON.stringify(attachments);
+
+			slack.api('chat.postMessage', {
+				"channel": presidentChannel,
+			    "text": "Select 1 more policy for the chancellor",
+			    "attachments": attachmentString
+			}, function(err, response){
+
+				console.log(response)
+
+			})				
 			res.sendStatus(200)
 			return	
 		} else {
-			res.sendStatus(200)
 			policies.push(presidentialPolicyOptions[0])
 
 			presidentialPolicyOptions = []
@@ -556,6 +557,7 @@ app.post('/component', function(req,res){
 
 		}
 
+		res.sendStatus(200)
 		return
 		
 
@@ -563,7 +565,7 @@ app.post('/component', function(req,res){
 
 	// if(callback_id == 'chancellor_policy_callback'){
 
-		
+
 
 	// }
 
