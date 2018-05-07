@@ -247,9 +247,10 @@ app.post('/', function (req, res) {
 
 				// })	
 
+
 				slack.api('chat.postMessage', {
 					"channel": secretHitlerChannel,
-					"text": "Would you like to nominate <@" + chancellor + "> chancellor?",
+				    "text": "Would you like to nominate chancellor?",
 				    "attachments": [
 				        {
 				            "text": "Vote for chancellor",
@@ -271,8 +272,8 @@ app.post('/', function (req, res) {
 				                    "value": "no"
 				                }
 				            ]
-					        }
-					    ]					
+				        }
+				    ]
 				}, function(err, response){
 
 					console.log(response)
