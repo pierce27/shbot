@@ -501,9 +501,12 @@ app.post('/component', function(req,res){
 
 		var originalMessage = payload.original_message
 
-		console.log(originalMessage.attachments.actions)
+		originalMessage.text = 'Select one more policy'
 
-		var originalActions = JSON.parse(originalMessage.attachments.actions)
+		console.log(originalMessage.attachments)
+		console.log(originalMessage.attachments['actions'])
+
+		var originalActions = JSON.parse(originalMessage.attachments['actions'])
 
 		console.log(originalActions)
 
