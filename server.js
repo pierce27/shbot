@@ -468,144 +468,146 @@ app.post('/', function (req, res) {
 app.post('/component', function(req,res){
 	
 	var payload = qs.parse(req.body.payload)
+	console.log(payload)
+	console.log(payload.actions)
 	var vote = payload.actions[0].value
 	var user = payload.user.id
 
-	if (payload.callback_id == "chancellor_vote"){
+	// if (payload.callback_id == "chancellor_vote"){
 
-		if(vote == 'yes'){
-			yesVotes.push(user);
-		} else if (vote == 'no'){
-			noVotes.push(user);
-		} else {
-			slack.api('chat.postMessage', {
-				channel: secretHitlerChannel,
-				text: 'Vote for <@' + chancellor +'> as chancellor by telling me "I vote yes" or "I vote no"'
-			}, function(err, response){
+	// 	if(vote == 'yes'){
+	// 		yesVotes.push(user);
+	// 	} else if (vote == 'no'){
+	// 		noVotes.push(user);
+	// 	} else {
+	// 		slack.api('chat.postMessage', {
+	// 			channel: secretHitlerChannel,
+	// 			text: 'Vote for <@' + chancellor +'> as chancellor by telling me "I vote yes" or "I vote no"'
+	// 		}, function(err, response){
 
-				// console.log(response)
+	// 			// console.log(response)
 
-			})					
-		}
+	// 		})					
+	// 	}
 
-		console.log('YES VOTES: ' + yesVotes);
-		console.log('NO VOTES: ' + noVotes);
+	// 	console.log('YES VOTES: ' + yesVotes);
+	// 	console.log('NO VOTES: ' + noVotes);
 
-		var totalVotes = yesVotes.length + noVotes.length;
+	// 	var totalVotes = yesVotes.length + noVotes.length;
 
-		if(totalVotes < members.length){
+	// 	if(totalVotes < members.length){
 
 
 			
-			slack.api('chat.postMessage', {
-				channel: secretHitlerChannel,
-				text:  votesLeft + ' votes remaining, ' + yesVotes.length + ' voted yes, ' + noVotes.length + ' voted no'
-			}, function(err, response){
+	// 		slack.api('chat.postMessage', {
+	// 			channel: secretHitlerChannel,
+	// 			text:  votesLeft + ' votes remaining, ' + yesVotes.length + ' voted yes, ' + noVotes.length + ' voted no'
+	// 		}, function(err, response){
 
-				// console.log(response)
+	// 			// console.log(response)
 
-			})					
+	// 		})					
 
-		} else {
+	// 	} else {
 
-			if(noVotes.length > yesVotes.length){
-				if(presidentIndex < members.length - 1){
-					presidentIndex = presidentIndex + 1;
-				} else {
-					presidentIndex = 0;
-				}
+	// 		if(noVotes.length > yesVotes.length){
+	// 			if(presidentIndex < members.length - 1){
+	// 				presidentIndex = presidentIndex + 1;
+	// 			} else {
+	// 				presidentIndex = 0;
+	// 			}
 
-				slack.api('groups.kick', {
-					user: president,
-					channel: presidentChannel
-				}, function(err, response){
+	// 			slack.api('groups.kick', {
+	// 				user: president,
+	// 				channel: presidentChannel
+	// 			}, function(err, response){
 
-					console.log(response)
+	// 				console.log(response)
 
-				})						
+	// 			})						
 
-				president = members[presidentIndex];
+	// 			president = members[presidentIndex];
 
-				slack.api('chat.postMessage', {
-					channel: secretHitlerChannel,
-					text: 'Resolution for <@' + chancellor + '> as chancellor not passed <@' + president + '> is now president. Nominate a chancellor!'
-				}, function(err, response){
+	// 			slack.api('chat.postMessage', {
+	// 				channel: secretHitlerChannel,
+	// 				text: 'Resolution for <@' + chancellor + '> as chancellor not passed <@' + president + '> is now president. Nominate a chancellor!'
+	// 			}, function(err, response){
 
-					// console.log(response)
-					failedResolutions = failedResolutions + 1;
+	// 				// console.log(response)
+	// 				failedResolutions = failedResolutions + 1;
 
-				})
+	// 			})
 
-				slack.api('groups.invite', {
-					user: president,
-					channel: presidentChannel
-				}, function(err, response){
+	// 			slack.api('groups.invite', {
+	// 				user: president,
+	// 				channel: presidentChannel
+	// 			}, function(err, response){
 
-					console.log(response)
+	// 				console.log(response)
 
-				})	
+	// 			})	
 
-				yesVotes = []
-				noVotes = []										
+	// 			yesVotes = []
+	// 			noVotes = []										
 
-			} else {
+	// 		} else {
 
-				slack.api('chat.postMessage', {
-					channel: secretHitlerChannel,
-					text: 'The resolution for <@' + chancellor + '> as chancellor has passed!!'
-				}, function(err, response){
+	// 			slack.api('chat.postMessage', {
+	// 				channel: secretHitlerChannel,
+	// 				text: 'The resolution for <@' + chancellor + '> as chancellor has passed!!'
+	// 			}, function(err, response){
 
-					// console.log(response)
-					chancellors.push(chancellor);
-					failedResolutions = 0;
+	// 				// console.log(response)
+	// 				chancellors.push(chancellor);
+	// 				failedResolutions = 0;
 
-				})
+	// 			})
 
-				// TODO Resolution logic
-			    slack.api('groups.invite', {
-			  	  user: chancellor,
-			  	  channel: chancellorChannel
-			    }, function(err, response){
+	// 			// TODO Resolution logic
+	// 		    slack.api('groups.invite', {
+	// 		  	  user: chancellor,
+	// 		  	  channel: chancellorChannel
+	// 		    }, function(err, response){
 
-			  	  console.log(response)
+	// 		  	  console.log(response)
 
-			    })	
+	// 		    })	
 
-			    // Determine options for president
-			   var i = 0;
-			   while(i < 3 ){
+	// 		    // Determine options for president
+	// 		   var i = 0;
+	// 		   while(i < 3 ){
 
-			   	policyIndex = Math.floor(Math.random()*policies.length);
+	// 		   	policyIndex = Math.floor(Math.random()*policies.length);
 
-			   	presidentialPolicyOptions.push(policies[policyIndex]);
+	// 		   	presidentialPolicyOptions.push(policies[policyIndex]);
 
-			   	policies.splice(policyIndex, 1);
+	// 		   	policies.splice(policyIndex, 1);
 
-			   	i = i + 1;
+	// 		   	i = i + 1;
 
-			   	// Once options are set than notify president. 
-			   	if (i == 3) {
+	// 		   	// Once options are set than notify president. 
+	// 		   	if (i == 3) {
 
-					slack.api('chat.postMessage', {
-						channel: presidentChannel,
-						text: 'Choose between these policies ' + presidentialPolicyOptions + ' by typing policies you want chancellor to choose from separated by a space (ex. "fascist, liberal"'
-					}, function(err, response){
+	// 				slack.api('chat.postMessage', {
+	// 					channel: presidentChannel,
+	// 					text: 'Choose between these policies ' + presidentialPolicyOptions + ' by typing policies you want chancellor to choose from separated by a space (ex. "fascist, liberal"'
+	// 				}, function(err, response){
 
 
-					})		
+	// 				})		
 							   		
-			   	}
+	// 		   	}
 
-			   }	
+	// 		   }	
 
 
-			}
-		}
-	}
+	// 		}
+	// 	}
+	// }
 
 	
 
-	console.log(body.payload.actions[0])
+	// console.log(body.payload.actions[0])
 	res.sendStatus(200)
 })
 
