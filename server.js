@@ -42,14 +42,14 @@ app.post('/', function (req, res) {
   // res.send('hello world')
 	console.log(req.body)
 
-	var message = req.body.event.text.toLowerCase();
-	var channel = req.body.event.channel;
-	var user = req.body.event.user;
-
 	if(req.body.event.subtype == 'bot_message' || req.body.event.subtype == 'message_changed'){
 		res.sendStatus(200)
 		return
 	}
+
+	var message = req.body.event.text.toLowerCase();
+	var channel = req.body.event.channel;
+	var user = req.body.event.user;
 
 	// message = message.replace(/.*>\s/, "")
 	// message = message.replace(/\s/, "")
@@ -475,7 +475,7 @@ app.post('/component', function(req,res){
 	// 	}
 	// }
 
-	console.log(body)
+	console.log(body.payload)
 	res.sendStatus(200)
 })
 
