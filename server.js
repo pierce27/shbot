@@ -249,28 +249,28 @@ app.post('/', function (req, res) {
 
 				slack.api('chat.postMessage', {
 					"channel": secretHitlerChannel,
-					"text": "Would you like to nominate " + chancellor + "chancellor?",
-					    "attachments": [
-					        {
-					            "text": "Vote for chancellor",
-					            "fallback": "You are unable to vote",
-					            "callback_id": "chancellor_vote",
-					            "color": "#3AA3E3",
-					            "attachment_type": "default",
-					            "actions": [
-					                {
-					                    "name": "game",
-					                    "text": "YES",
-					                    "type": "button",
-					                    "value": "yes"
-					                },
-					                {
-					                    "name": "game",
-					                    "text": "NO",
-					                    "type": "button",
-					                    "value": "no"
-					                }
-					            ]
+					"text": "Would you like to nominate <@" + chancellor + "> chancellor?",
+				    "attachments": [
+				        {
+				            "text": "Vote for chancellor",
+				            "fallback": "You are unable to vote",
+				            "callback_id": "chancellor_vote",
+				            "color": "#3AA3E3",
+				            "attachment_type": "default",
+				            "actions": [
+				                {
+				                    "name": "game",
+				                    "text": "YES",
+				                    "type": "button",
+				                    "value": "yes"
+				                },
+				                {
+				                    "name": "game",
+				                    "text": "NO",
+				                    "type": "button",
+				                    "value": "no"
+				                }
+				            ]
 					        }
 					    ]					
 				}, function(err, response){
@@ -458,8 +458,8 @@ app.post('/', function (req, res) {
 
 
 
-app.get('/', function(req,res){
-	res.send('hellow world')
+app.post('/component', function(req,res){
+	console.log(req.body)
 })
 
 
