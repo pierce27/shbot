@@ -501,7 +501,7 @@ app.post('/component', function(req,res){
 
 		var originalMessage = payload.original_message
 
-		console.log(originalMessage.attachments)
+		console.log(originalMessage.attachments.actions)
 
 		var presidentialPolicyChoiceIndex = payload.actions['value']
 
