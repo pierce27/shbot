@@ -453,7 +453,11 @@ app.post('/component', function(req,res){
 							}
 						]
 
-						attachments.actions = createPresidentActions(presidentialPolicyOptions)
+						var actions = createPresidentActions(presidentialPolicyOptions);
+
+						console.log(actions)
+
+						attachments.actions = actions
 
 						var attachmentString = JSON.stringify(attachments);
 
@@ -534,19 +538,21 @@ var createPresidentActions = function(options){
 	var actionsArray = []
 
 	var option = 	{
-	    "name": "policy1",
+	    "name": "policy",
 	    "text": '',
 	    "type": "button",
 	    "value": ''
 	}
 
-	for (var i = options.length - 1; i >= 0; i--) {
+	for (var i = options.length - 1; i < options.length; i++) {
+		option.name = "policy"+i
 		option.text = options[i];
 		option.value = i;
+		console.log('OPTION::' + option)
 		actionsArray.push(option);
 	}
 
-	console.log('ARRAY!!'+ actionsArray)
+	// console.log('ARRAY!!'+ actionsArray)
 	return actionsArray	
 }
 
