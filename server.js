@@ -468,7 +468,7 @@ app.post('/', function (req, res) {
 app.post('/component', function(req,res){
 	
 
-	console.log(req.body.payload.actions)
+	console.log(req.body.payload)
 	
 
 	// if (payload.callback_id == "chancellor_vote"){
