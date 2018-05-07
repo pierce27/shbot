@@ -5,6 +5,7 @@ app.use(bodyParser.urlencoded({ extended: false }));
 var https = require('https');
 var querystring = require('querystring')
 var Slack = require('slack-node');
+var qs = require('qs');
 slack = new Slack(process.env.SLACK_AUTH);	
 
 var hitlerChannel = 'GAJBE9AFN';
@@ -465,7 +466,16 @@ app.post('/', function (req, res) {
 
 
 app.post('/component', function(req,res){
-	console.log(req.body.payload.actions.value)
+	
+	var body = qs.parse(req.body)
+
+	// if (payload.callback_id == "chancellor_vote"){
+	// 	if(payload.actions.value == "yes"){
+	// 		yesVotes.push.
+	// 	}
+	// }
+
+	console.log(body)
 	res.sendStatus(200)
 })
 
