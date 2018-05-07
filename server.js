@@ -542,7 +542,7 @@ app.post('/component', function(req,res){
 				}
 			]
 
-			console.log(chancellorPolicyOptionsa)
+			console.log(chancellorPolicyOptions)
 			attachments[0].actions = createActions(chancellorPolicyOptions)
 			console.log(attachments)
 			console.log(attachments[0].actions)
