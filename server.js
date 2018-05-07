@@ -470,6 +470,7 @@ app.post('/component', function(req,res){
 	var payload = qs.parse(req.body.payload)
 	console.log(payload)
 	var actions = qs.parse(payload.actions)
+	console.log(actions)
 	var vote = actions[0].value
 	var user = payload.user.id
 	console.log(vote)
