@@ -249,7 +249,7 @@ app.post('/', function (req, res) {
 
 
 				var attachments = [
-		        {
+		        	{
 		            "text": "Vote for chancellor",
 		            "fallback": "You are unable to vote",
 		            "callback_id": "chancellor_vote",
@@ -267,7 +267,9 @@ app.post('/', function (req, res) {
 		                    "text": "NO",
 		                    "type": "button",
 		                    "value": "no"
-		        }
+		        		}
+					]
+					}
 				]
 
 				var attachmentString = JSON.stringify(attachments);
