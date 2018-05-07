@@ -54,7 +54,7 @@ app.post('/', function (req, res) {
 
 	console.log(message)
 
-	if (channel == secretHitlerChannel){
+	if (channel == secretHitlerChannel && req.body.event.subtype !== 'bot_message'){
 
 
 		if (message == "new game") {
@@ -464,7 +464,7 @@ app.post('/', function (req, res) {
 
 
 app.post('/component', function(req,res){
-	console.log(req.body)
+	console.log(req)
 	res.sendStatus(200)
 })
 
