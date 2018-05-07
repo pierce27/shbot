@@ -60,7 +60,7 @@ app.post('/', function (req, res) {
 	if (channel == secretHitlerChannel){
 
 
-		if (message == "new game") {
+		if (message == "new game" && user == 'U1EG6PYPR') {
 
 			if (gameInProgress == true){
 
@@ -202,7 +202,7 @@ app.post('/', function (req, res) {
 
 
 		// End the game
-		if (message == 'end game'){
+		if (message == 'end game' && user == 'U1EG6PYPR'){
 
 			gameInProgress = false;
 			fascists = [];
@@ -593,6 +593,8 @@ app.post('/component', function(req,res){
 
 	if(callbackId == 'chancellor_policy_callback'){
 
+		res.sendStatus(200)
+
 		var chancellorPolicyChoiceIndex = payload.actions[0].value;
 		chancellorPolicyChoice = chancellorPolicyOptions[chancellorPolicyChoiceIndex]
 
@@ -642,10 +644,6 @@ app.post('/component', function(req,res){
 			
 
 		})			
-
-	
-
-		res.sendStatus(200)
 
 
 
