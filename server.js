@@ -453,7 +453,7 @@ app.post('/component', function(req,res){
 							}
 						]
 
-						var attachments.actions = createPresidentActions(presidentialPolicyOptions)
+						attachments.actions = createPresidentActions(presidentialPolicyOptions)
 
 						var attachmentString = JSON.stringify(attachments);
 
@@ -499,7 +499,7 @@ app.post('/component', function(req,res){
 			}
 		]
 
-		var attachments.actions = createPresidentActions(presidentialPolicyOptions)
+		attachments.actions = createPresidentActions(presidentialPolicyOptions)
 
 		var attachmentString = JSON.stringify(attachments);
 
