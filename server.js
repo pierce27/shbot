@@ -248,32 +248,34 @@ app.post('/', function (req, res) {
 				// })	
 
 
+				var attachments = [
+		        {
+		            "text": "Vote for chancellor",
+		            "fallback": "You are unable to vote",
+		            "callback_id": "chancellor_vote",
+		            "color": "#3AA3E3",
+		            "attachment_type": "default",
+		            "actions": [
+		                {
+		                    "name": "game",
+		                    "text": "YES",
+		                    "type": "button",
+		                    "value": "yes"
+		                },
+		                {
+		                    "name": "game",
+		                    "text": "NO",
+		                    "type": "button",
+		                    "value": "no"
+		        }
+				]
+
+				var attachmentString = JSON.stringify(attachments);
+
 				slack.api('chat.postMessage', {
 					"channel": secretHitlerChannel,
 				    "text": "Would you like to nominate chancellor?",
-				    "attachments": [
-				        {
-				            "text": "Vote for chancellor",
-				            "fallback": "You are unable to vote",
-				            "callback_id": "chancellor_vote",
-				            "color": "#3AA3E3",
-				            "attachment_type": "default",
-				            "actions": [
-				                {
-				                    "name": "game",
-				                    "text": "YES",
-				                    "type": "button",
-				                    "value": "yes"
-				                },
-				                {
-				                    "name": "game",
-				                    "text": "NO",
-				                    "type": "button",
-				                    "value": "no"
-				                }
-				            ]
-				        }
-				    ]
+				    "attachments": attachmentString
 				}, function(err, response){
 
 					console.log(response)
