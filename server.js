@@ -453,7 +453,7 @@ app.post('/component', function(req,res){
 							}
 						]
 
-						console.log(actions)
+						// console.log(actions)
 
 						attachments[0].actions = createPresidentActions(presidentialPolicyOptions);
 
