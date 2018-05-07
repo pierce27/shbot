@@ -325,6 +325,8 @@ app.post('/component', function(req,res){
 
 	var user = payload.user.id
 
+	res.sendStatus(200)
+
 	if (payload.callback_id == "chancellor_vote"){
 
 		if(vote == 'yes'){
@@ -489,15 +491,36 @@ app.post('/component', function(req,res){
 
 			}
 		}
+
+		return
 	}
 
 	if(payload.callback_id == 'presidential_policy_choice'){
 
 		console.log(payload)
 
+		var originalMessage = payload.original_message
+
+		var presidentialPolicyChoiceIndex = payload.actions['value']
+
+		chancellorPolicyOptions.push(presidentialPolicyOptions[presidentialPolicyChoiceIndex])
+
+		var originalAttachments = JSON.parse(originalMessage['attachments'])
+
+		originalAttachments.actions[0].splice(presidentialPolicyChoiceIndex, 1)
+		presidentialPolicyOptions.splice(presidentialPolicyChoiceIndex, 1)
+
+		originalMessage['attachments'] = JSON.stringify(originalAttachments)
+
+		if (presidentialPolicyOptions.length > 1){
+			res.send(originalMessage)
+			return	
+		}
+		
+
 	}
 
-	res.sendStatus(200)
+	
 })
 
 
