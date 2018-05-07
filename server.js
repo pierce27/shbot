@@ -214,6 +214,8 @@ app.post('/', function (req, res) {
 			yesVotes = [];
 			noVotes = [];
 			votesLeft = 0;
+			chancellorPolicyOptions = [];
+			presidentialPolicyOptions = [];
 
 
 		}
@@ -329,18 +331,27 @@ app.post('/component', function(req,res){
 
 		if(vote == 'yes'){
 			yesVotes.push(user);
-		} else if (vote == 'no'){
-			noVotes.push(user);
-		} else {
 			slack.api('chat.postMessage', {
-				channel: secretHitlerChannel,
-				text: 'Vote for <@' + chancellor +'> as chancellor by telling me "I vote yes" or "I vote no"'
+				"channel": secretHitlerChannel,
+			    "text": "<@"+user+"> has voted "+vote+". Vote count: "+yesVotes.length+" yes votes and "+noVotes.length+" no votes"
 			}, function(err, response){
 
-				// console.log(response)
+				console.log(response)
+				
 
-			})					
-		}
+			})				
+		} else if (vote == 'no'){
+			noVotes.push(user);
+			slack.api('chat.postMessage', {
+				"channel": secretHitlerChannel,
+			    "text": "<@"+user+"> has voted "+vote+". Vote count: "+yesVotes.length+" yes votes and "+noVotes.length+" no votes"
+			}, function(err, response){
+
+				console.log(response)
+				
+
+			})				
+		} 
 
 		console.log('YES VOTES: ' + yesVotes);
 		console.log('NO VOTES: ' + noVotes);
@@ -557,7 +568,17 @@ app.post('/component', function(req,res){
 				console.log(response)
 				
 
-			})				
+			})	
+
+			slack.api('chat.postMessage', {
+				"channel": secretHitlerChannel,
+			    "text": "President has given the Chancellor policies to choose from"
+			}, function(err, response){
+
+				console.log(response)
+				
+
+			})							
 
 		}
 
@@ -567,11 +588,31 @@ app.post('/component', function(req,res){
 
 	}
 
-	// if(callback_id == 'chancellor_policy_callback'){
+	if(callback_id == 'chancellor_policy_callback'){
+
+		var chancellorPolicyChoiceIndex = payload.actions[0].value;
+		chancellorPolicyChoice = chancellorPolicyOptions[chancellorPolicyChoiceIndex]
+
+		enactedPolicies.push(chancellorPolicyChoice);
+		chancellorPolicyOptions.splice(chancellorPolicyChoiceIndex, 1);
+		policies.push(chancellorPolicyOptions[0]);
+		chancellorPolicyOptions = [];
+
+		slack.api('chat.postMessage', {
+			"channel": secretHitlerChannel,
+		    "text": "A "+ chancellorPolicyChoice + " has been enacted!"
+		}, function(err, response){
+
+			console.log(response)
+			
+
+		})			
 
 
 
-	// }
+
+
+	}
 
 	
 })
