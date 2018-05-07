@@ -22,6 +22,7 @@ var fascists = [];
 var hitler = '';
 var liberals = [];
 var members = [];
+
 var presidentIndex = 0;
 var president = '';
 var chancellor = '';
@@ -600,14 +601,36 @@ app.post('/component', function(req,res){
 		policies.push(chancellorPolicyOptions[0]);
 		chancellorPolicyOptions = [];
 
+		slack.api('groups.kick', {
+			user: president,
+			channel: presidentChannel
+		}, function(err, response){
+
+			console.log(response)
+
+		})					
+
+		slack.api('groups.kick', {
+			user: chancellor,
+			channel: chancellorChannel
+		}, function(err, response){
+
+			console.log(response)
+
+		})									
+
 		if(presidentIndex < members.length - 1){
 			presidentIndex = presidentIndex + 1;
 		} else {
 			presidentIndex = 0;
 		}
 
-		president = members[presidentIndex]
-		chancellor = ''			
+		president = members[presidentIndex];
+		chancellor = '';
+		yesVotes = [];
+		noVotes = [];	
+
+
 
 		slack.api('chat.postMessage', {
 			"channel": secretHitlerChannel,
