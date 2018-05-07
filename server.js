@@ -442,47 +442,30 @@ app.post('/component', function(req,res){
 			   	// Once options are set than notify president. 
 			   	if (i == 3) {
 
-					var attachments = [
-			        	{
-			            "text": "Choose between these policies",
-			            "fallback": "You are unable to choose",
-			            "callback_id": "presidential_policy_choice",
-			            "color": "#3AA3E3",
-			            "attachment_type": "default",
-			            "actions": [
-			                {
-			                    "name": "policy1",
-			                    "text": presidentialPolicyOptions[0],
-			                    "type": "button",
-			                    "value": 0
-			                },
-			                {
-			                    "name": "policy1",
-			                    "text": presidentialPolicyOptions[1],
-			                    "type": "button",
-			                    "value": 1
-			                },
-			                {
-			                    "name": "policy1",
-			                    "text": presidentialPolicyOptions[2],
-			                    "type": "button",
-			                    "value": 2
-			                }			                
+						var attachments = [
+				        	{
+				            "text": "Choose between these policies",
+				            "fallback": "You are unable to choose",
+				            "callback_id": "presidential_policy_choice",
+				            "color": "#3AA3E3",
+				            "attachment_type": "default",
+				            "actions": ''
+							}
 						]
-						}
-					]
 
-					var attachmentString = JSON.stringify(attachments);
+						var attachments.actions = createPresidentActions(presidentialPolicyOptions)
 
-					slack.api('chat.postMessage', {
-						"channel": presidentChannel,
-					    "text": "Select 2 policies for the chancellor",
-					    "attachments": attachmentString
-					}, function(err, response){
+						var attachmentString = JSON.stringify(attachments);
 
-						console.log(response)
+						slack.api('chat.postMessage', {
+							"channel": presidentChannel,
+						    "text": "Select 2 policies for the chancellor",
+						    "attachments": attachmentString
+						}, function(err, response){
 
-					})	
+							console.log(response)
+
+						})	
 								   		
 				   	}
 
@@ -499,30 +482,41 @@ app.post('/component', function(req,res){
 
 		console.log(payload)
 
-		var originalMessage = payload.original_message
-
-		originalMessage.text = 'Select one more policy'
-
-		console.log(originalMessage.attachments)
-		console.log(originalMessage.attachments['actions'])
-
-		var originalActions = JSON.parse(originalMessage.attachments['actions'])
-
-		console.log(originalActions)
-
 		var presidentialPolicyChoiceIndex = payload.actions['value']
 
 		chancellorPolicyOptions.push(presidentialPolicyOptions[presidentialPolicyChoiceIndex])
 
-		originalAttachments.splice(presidentialPolicyChoiceIndex, 1)
+		presidentialPolicyOptions.splice(presidentialPolicyChoiceIndex, 1)		
 
-		originalMessage.attachments.actions = JSON.stringify(originalActions)
-		presidentialPolicyOptions.splice(presidentialPolicyChoiceIndex, 1)
+		var attachments = [
+        	{
+            "text": "Choose between these policies",
+            "fallback": "You are unable to choose",
+            "callback_id": "presidential_policy_choice",
+            "color": "#3AA3E3",
+            "attachment_type": "default",
+            "actions": ''
+			}
+		]
+
+		var attachments.actions = createPresidentActions(presidentialPolicyOptions)
+
+		var attachmentString = JSON.stringify(attachments);
+
+		slack.api('chat.postMessage', {
+			"channel": presidentChannel,
+		    "text": "Select 1 more policy for the chancellor",
+		    "attachments": attachmentString
+		}, function(err, response){
+
+			console.log(response)
+
+		})			
 
 		// originalMessage.actions[0] = JSON.stringify(originalAttachments)
 
 		if (presidentialPolicyOptions.length > 1){
-			res.send(originalMessage)
+			res.sendStatus(200)
 			return	
 		}
 		
@@ -532,5 +526,24 @@ app.post('/component', function(req,res){
 	
 })
 
+var createPresidentActions = function(options){
+	
+	var actionsArray = []
+
+	var option = 	{
+	    "name": "policy1",
+	    "text": '',
+	    "type": "button",
+	    "value": ''
+	}
+
+	for (var i = options.length - 1; i >= 0; i--) {
+		option.text = options[i];
+		option.value = i;
+		actionsArray.push(option);
+	}
+
+	return actionsArray	
+}
 
 app.listen(process.env.PORT || 3000)
