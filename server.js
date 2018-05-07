@@ -474,6 +474,8 @@ app.post('/component', function(req,res){
 
 	var vote = payload.actions[0].value
 
+	var user = payload.user.id
+
 	if (payload.callback_id == "chancellor_vote"){
 
 		if(vote == 'yes'){
