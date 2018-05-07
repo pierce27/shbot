@@ -1,6 +1,7 @@
 bodyParser = require('body-parser');
 app = require('express')();
 app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({ extended: false }));
 var https = require('https');
 var querystring = require('querystring')
 var Slack = require('slack-node');
@@ -44,7 +45,7 @@ app.post('/', function (req, res) {
 	var channel = req.body.event.channel;
 	var user = req.body.event.user;
 
-	if(req.body.event.subtype == 'bot_message'){
+	if(req.body.event.subtype == 'bot_message' || req.body.event.subtype == 'message_changed'){
 		res.sendStatus(200)
 		return
 	}
@@ -54,7 +55,7 @@ app.post('/', function (req, res) {
 
 	console.log(message)
 
-	if (channel == secretHitlerChannel && req.body.event.subtype !== 'bot_message'){
+	if (channel == secretHitlerChannel){
 
 
 		if (message == "new game") {
@@ -464,7 +465,7 @@ app.post('/', function (req, res) {
 
 
 app.post('/component', function(req,res){
-	console.log(req)
+	console.log(req.body)
 	res.sendStatus(200)
 })
 
