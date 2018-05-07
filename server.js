@@ -457,6 +457,9 @@ app.post('/component', function(req,res){
 
 						var attachmentString = JSON.stringify(attachments);
 
+						console.log(attachments)
+						console.log(attachmentString)
+
 						slack.api('chat.postMessage', {
 							"channel": presidentChannel,
 						    "text": "Select 2 policies for the chancellor",
@@ -543,6 +546,7 @@ var createPresidentActions = function(options){
 		actionsArray.push(option);
 	}
 
+	console.log('ARRAY!!'+ actionsArray)
 	return actionsArray	
 }
 
