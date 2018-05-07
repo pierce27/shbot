@@ -600,9 +600,19 @@ app.post('/component', function(req,res){
 		policies.push(chancellorPolicyOptions[0]);
 		chancellorPolicyOptions = [];
 
+		if(presidentIndex < members.length - 1){
+			presidentIndex = presidentIndex + 1;
+		} else {
+			presidentIndex = 0;
+		}
+
+		president = members[presidentIndex]
+		chancellor = ''			
+
 		slack.api('chat.postMessage', {
 			"channel": secretHitlerChannel,
-		    "text": "A "+ chancellorPolicyChoice + " has been enacted!"
+		    "text": "A "+ chancellorPolicyChoice + " policy has been enacted! Enacted Policies are " + enactedPolicies +
+		    " The new president is <@" + president + ">, nominate a chancellor!!"
 		}, function(err, response){
 
 			console.log(response)
@@ -610,7 +620,9 @@ app.post('/component', function(req,res){
 
 		})			
 
+	
 
+		res.sendStatus(200)
 
 
 
