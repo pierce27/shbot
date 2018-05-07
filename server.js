@@ -30,7 +30,7 @@ var yesVotes = [];
 var noVotes = [];
 var votesLeft = 0;
 
-var policies = ['fascist', 'fascist', 'fascist', 'fascist', 'fascist', 'fascist', 'fascist', 'fascist', 'fascist', 'fascist', 'fascist', 'liberal', 'liberal', 'liberal', 'liberal', 'liberal', 'liberal'];
+var policies = ['FASCIST', 'FASCIST', 'FASCIST', 'FASCIST', 'FASCIST', 'FASCIST', 'FASCIST', 'FASCIST', 'FASCIST', 'FASCIST', 'FASCIST', 'LIBERAL', 'LIBERAL', 'LIBERAL', 'LIBERAL', 'LIBERAL', 'LIBERAL'];
 var presidentialPolicyOptions = [];
 var chancellorPolicyOptions = [];
 var enactedPolicies = [];
@@ -238,14 +238,46 @@ app.post('/', function (req, res) {
 				chancellor = chancellor.replace(/\s/, '')
 				chancellor = chancellor.toUpperCase()
 
+				// slack.api('chat.postMessage', {
+				// 	channel: secretHitlerChannel,
+				// 	text: 'Vote if you would like <@' + chancellor +'> as chancellor by telling me I vote yes or I vote no'
+				// }, function(err, response){
+
+				// 	console.log(response)
+
+				// })	
+
 				slack.api('chat.postMessage', {
-					channel: secretHitlerChannel,
-					text: 'Vote if you would like <@' + chancellor +'> as chancellor by telling me I vote yes or I vote no'
+					"channel": secretHitlerChannel,
+					"text": "Would you like to nominate " + chancellor + "chancellor?",
+					    "attachments": [
+					        {
+					            "text": "Vote for chancellor",
+					            "fallback": "You are unable to vote",
+					            "callback_id": "chancellor_vote",
+					            "color": "#3AA3E3",
+					            "attachment_type": "default",
+					            "actions": [
+					                {
+					                    "name": "game",
+					                    "text": "YES",
+					                    "type": "button",
+					                    "value": "yes"
+					                },
+					                {
+					                    "name": "game",
+					                    "text": "NO",
+					                    "type": "button",
+					                    "value": "no"
+					                }
+					            ]
+					        }
+					    ]					
 				}, function(err, response){
 
 					console.log(response)
 
-				})						
+				})										
 
 			}
 
@@ -404,7 +436,13 @@ app.post('/', function (req, res) {
 	}
 
 	if (channel == presidentChannel) {
-		
+
+		chancellorPolicyOptions = message.split(' ')
+
+		if(chancellorPolicyOptions.length == 2 ){
+
+		}
+
 	}
 
 
