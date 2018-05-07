@@ -325,8 +325,6 @@ app.post('/component', function(req,res){
 
 	var user = payload.user.id
 
-	res.sendStatus(200)
-
 	if (payload.callback_id == "chancellor_vote"){
 
 		if(vote == 'yes'){
@@ -487,7 +485,7 @@ app.post('/component', function(req,res){
 
 		console.log(payload)
 
-		var presidentialPolicyChoiceIndex = payload.actions['value']
+		var presidentialPolicyChoiceIndex = payload.actions[0].value
 
 		chancellorPolicyOptions.push(presidentialPolicyOptions[presidentialPolicyChoiceIndex])
 
@@ -524,7 +522,6 @@ app.post('/component', function(req,res){
 				
 
 			})			
-			res.sendStatus(200)	
 			
 		} else {
 			policies.push(presidentialPolicyOptions[0])
@@ -561,12 +558,11 @@ app.post('/component', function(req,res){
 				
 
 			})				
-			res.sendStatus(200)
 
 		}
 
 		
-		return
+		res.sendStatus(200)
 		
 
 	}
