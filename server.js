@@ -469,9 +469,11 @@ app.post('/component', function(req,res){
 	
 	var payload = qs.parse(req.body.payload)
 	console.log(payload)
-	console.log(payload.actions)
-	var vote = payload.actions[0].value
+	var actions = qs.parse(payload.actions)
+	var vote = actions[0].value
 	var user = payload.user.id
+	console.log(vote)
+	console.log(user)
 
 	// if (payload.callback_id == "chancellor_vote"){
 
