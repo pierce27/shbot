@@ -174,9 +174,17 @@ app.post('/', function (req, res) {
 
 				var attachmentString = JSON.stringify(attachments);
 
+				var text = "Your options for nomination are ";
+
+				for (var i = 0; i < members.length; i++) {
+					if(members[i] !== president){
+						text = text + i + ". <@"+members[i] + " "	
+					}
+				}
+
 				slack.api('chat.postMessage', {
-					"channel": secretHitlerChannel,
-				    "text": "Would you like to nominate <@"+ chancellor + "> as chancellor?",
+					"channel": presidentChannel,
+				    "text": "Your options to nominated",
 				    "attachments": attachmentString
 				}, function(err, response){
 
@@ -680,6 +688,10 @@ app.post('/component', function(req,res){
 
 	}
 
+	if(callback_id==president_nomination){
+		console.log(payload)
+	}
+
 	
 })
 
@@ -697,7 +709,7 @@ var createActions = function(options, memberActions){
 	for (var i = 0; i < options.length; i++) {
 		option.name = options[i];
 		if(memberActions){
-			option.text = "<@"+options[i]+">";	
+			option.text = i;	
 		} else {
 			option.text = options[i];				
 		}
