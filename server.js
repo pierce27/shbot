@@ -184,7 +184,7 @@ app.post('/', function (req, res) {
 
 				slack.api('chat.postMessage', {
 					"channel": presidentChannel,
-				    "text": "Your options to nominated",
+				    "text": text,
 				    "attachments": attachmentString
 				}, function(err, response){
 
