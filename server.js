@@ -297,6 +297,7 @@ app.post('/component', function(req,res){
 	if(callbackId == 'president_nomination'){
 		console.log(payload)
 
+		res.sendStatus(200)
 
 		chancellor = members[payload.actions[0].value]
 
