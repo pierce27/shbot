@@ -77,7 +77,7 @@ app.post('/', function (req, res) {
 				gameInProgress == true;
 			}
 
-			
+
 			// Get Member list
 			slack.api('groups.info', {
 			  // user:'D3H23DLBT',
@@ -90,8 +90,8 @@ app.post('/', function (req, res) {
 			  // Remove bot from members
 			  var botIndex = members.indexOf('UAJ290DDY');
 			  if (botIndex >= 0) {
-	     		  members.splice( botIndex, 1 );
-		      }		  
+					  members.splice( botIndex, 1 );
+			  }		  
 
 			  liberals = members
 
@@ -102,7 +102,7 @@ app.post('/', function (req, res) {
 			  	fascists.push(liberals[fascistIndex]);
 
 			  	liberals = liberals.filter(function( obj ) {
-	    			return obj.field !== fascists[fascists.length -1];
+					return obj.field !== fascists[fascists.length -1];
 			  	})
 			  }
 
@@ -112,7 +112,7 @@ app.post('/', function (req, res) {
 
 			  // Remove from fascists
 			  fascists = fascists.filter(function( obj ) {
-				return obj.field !== hitler;
+				return obj !== hitler;
 			  })		  
 
 			  // Invite Fascists
@@ -140,7 +140,7 @@ app.post('/', function (req, res) {
 
 			  president = members[presidentIndex];
 
-	     	  slack.api('groups.invite', {
+				  slack.api('groups.invite', {
 				user: president,
 				channel: presidentChannel
 			  }, function(err, response){
@@ -151,13 +151,39 @@ app.post('/', function (req, res) {
 
 			  slack.api('chat.postMessage', {
 			  	channel: secretHitlerChannel,
-			  	text: 'President is now <@' + president + '>. Nominate a Chancelor by @Secret Hitler Bot "I nominate @user" !'
+			  	text: 'President is now <@' + president + '>. President will nominate a chancellor from his secret president channel'
 
 			  }, function(err, response){
 
 			  	console.log(response)
 
 			  })
+
+				var attachments = [
+					{
+				    "text": "Nominate a chancellor",
+				    "fallback": "You are unable to nominate a chancellor",
+				    "callback_id": "president_nomination",
+				    "color": "#3AA3E3",
+				    "attachment_type": "default",
+				    "actions": []
+					}
+				]
+
+				attachments[0].actions = createActions(members, true);				
+
+				var attachmentString = JSON.stringify(attachments);
+
+				slack.api('chat.postMessage', {
+					"channel": secretHitlerChannel,
+				    "text": "Would you like to nominate <@"+ chancellor + "> as chancellor?",
+				    "attachments": attachmentString
+				}, function(err, response){
+
+					console.log(response)
+
+				})										
+
 
 			  console.log('MEMBERS: ' + members);
 			  console.log('LIBERALS: ' + liberals);
@@ -217,6 +243,8 @@ app.post('/', function (req, res) {
 			votesLeft = 0;
 			chancellorPolicyOptions = [];
 			presidentialPolicyOptions = [];
+
+			res.sendStatus(200)
 
 
 		}
@@ -418,7 +446,7 @@ app.post('/component', function(req,res){
 
 			} else {
 
-				res.sendStatus(200)
+				
 
 				slack.api('chat.postMessage', {
 					channel: secretHitlerChannel,
@@ -469,7 +497,7 @@ app.post('/component', function(req,res){
 
 						// console.log(actions)
 
-						attachments[0].actions = createActions(presidentialPolicyOptions);
+						attachments[0].actions = createActions(presidentialPolicyOptions, false);
 
 						var attachmentString = JSON.stringify(attachments);
 
@@ -492,6 +520,7 @@ app.post('/component', function(req,res){
 
 
 			}
+			res.sendStatus(200)
 		}
 
 		return
@@ -524,7 +553,7 @@ app.post('/component', function(req,res){
 				}
 			]
 
-			attachments[0].actions = createActions(presidentialPolicyOptions)
+			attachments[0].actions = createActions(presidentialPolicyOptions, false)
 
 			var attachmentString = JSON.stringify(attachments);
 
@@ -556,7 +585,7 @@ app.post('/component', function(req,res){
 			]
 
 			console.log(chancellorPolicyOptions)
-			attachments[0].actions = createActions(chancellorPolicyOptions)
+			attachments[0].actions = createActions(chancellorPolicyOptions, false)
 			console.log(attachments)
 			console.log(attachments[0].actions)
 
@@ -654,7 +683,7 @@ app.post('/component', function(req,res){
 	
 })
 
-var createActions = function(options){
+var createActions = function(options, memberActions){
 	
 	var actionsArray = []
 
@@ -666,8 +695,13 @@ var createActions = function(options){
 	}
 
 	for (var i = 0; i < options.length; i++) {
-		option.name = "policy"+i
-		option.text = options[i];
+		option.name = options[i];
+		if(memberActions){
+			option.text = "<@"+options[i]+">";	
+		} else {
+			option.text = options[i];				
+		}
+		
 		option.value = i;
 		console.log('OPTION::' + option)
 		actionsArray.push(option);
