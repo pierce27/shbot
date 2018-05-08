@@ -178,8 +178,7 @@ app.post('/', function (req, res) {
 
 				for (var i = 0; i < members.length; i++) {
 					// if(members[i] !== president){
-						// text = text + i + ". <@"+members[i] + "> "
-						text = text + i + ". <@U02CCMA68> "	
+						text = text + i + ". <@"+members[i] + "> "
 					// }
 				}
 
@@ -253,82 +252,10 @@ app.post('/', function (req, res) {
 			chancellorPolicyOptions = [];
 			presidentialPolicyOptions = [];
 
-			res.sendStatus(200)
-
 
 		}
 
 
-		// Nominate chancellor
-		if (message.indexOf('i nominate') !== -1){
-
-			if (user !== president){
-
-				slack.api('chat.postMessage', {
-					channel: secretHitlerChannel,
-					text: 'You cannot nominate chancellor, you are not President!'
-				}, function(err, response){
-
-					console.log(response)
-
-				})
-
-
-			} else {
-				chancellor = message.replace(/.*<@/, '')
-				chancellor = chancellor.replace(/>/, '')
-				chancellor = chancellor.replace(/\s/, '')
-				chancellor = chancellor.toUpperCase()
-
-				// slack.api('chat.postMessage', {
-				// 	channel: secretHitlerChannel,
-				// 	text: 'Vote if you would like <@' + chancellor +'> as chancellor by telling me I vote yes or I vote no'
-				// }, function(err, response){
-
-				// 	console.log(response)
-
-				// })	
-
-
-				var attachments = [
-		        	{
-		            "text": "Vote for chancellor",
-		            "fallback": "You are unable to vote",
-		            "callback_id": "chancellor_vote",
-		            "color": "#3AA3E3",
-		            "attachment_type": "default",
-		            "actions": [
-		                {
-		                    "name": "game",
-		                    "text": "Ja",
-		                    "type": "button",
-		                    "value": "yes"
-		                },
-		                {
-		                    "name": "game",
-		                    "text": "Nein",
-		                    "type": "button",
-		                    "value": "no"
-		        		}
-					]
-					}
-				]
-
-				var attachmentString = JSON.stringify(attachments);
-
-				slack.api('chat.postMessage', {
-					"channel": secretHitlerChannel,
-				    "text": "Would you like to nominate <@"+ chancellor + "> as chancellor?",
-				    "attachments": attachmentString
-				}, function(err, response){
-
-					console.log(response)
-
-				})										
-
-			}
-
-		}
 	}
 
 	if (channel == presidentChannel) {
@@ -689,8 +616,48 @@ app.post('/component', function(req,res){
 
 	}
 
-	if(callback_id==president_nomination){
+	if(callbackid == president_nomination){
 		console.log(payload)
+
+
+		chancellor = payload.actions[0].value
+
+
+		var attachments = [
+        	{
+            "text": "Vote for chancellor",
+            "fallback": "You are unable to vote",
+            "callback_id": "chancellor_vote",
+            "color": "#3AA3E3",
+            "attachment_type": "default",
+            "actions": [
+                {
+                    "name": "game",
+                    "text": "Ja",
+                    "type": "button",
+                    "value": "yes"
+                },
+                {
+                    "name": "game",
+                    "text": "Nein",
+                    "type": "button",
+                    "value": "no"
+        		}
+			]
+			}
+		]
+
+		var attachmentString = JSON.stringify(attachments);
+
+		slack.api('chat.postMessage', {
+			"channel": secretHitlerChannel,
+		    "text": "President has nominated <@"+ chancellor + "> as chancellor. Would you like them to be chancellor?",
+		    "attachments": attachmentString
+		}, function(err, response){
+
+			console.log(response)
+
+		})							
 	}
 
 	
