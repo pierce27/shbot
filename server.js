@@ -178,7 +178,8 @@ app.post('/', function (req, res) {
 
 				for (var i = 0; i < members.length; i++) {
 					// if(members[i] !== president){
-						text = text + i + ". <@"+members[i] + "> "	
+						// text = text + i + ". <@"+members[i] + "> "
+						text = text + i + ". <@U02CCMA68> "	
 					// }
 				}
 
