@@ -655,7 +655,40 @@ app.post('/component', function(req,res){
 			console.log(response)
 			
 
-		})			
+		})	
+
+		var attachments = [
+			{
+		    "text": "Nominate a chancellor",
+		    "fallback": "You are unable to nominate a chancellor",
+		    "callback_id": "president_nomination",
+		    "color": "#3AA3E3",
+		    "attachment_type": "default",
+		    "actions": []
+			}
+		]
+
+		attachments[0].actions = createActions(members, true);				
+
+		var attachmentString = JSON.stringify(attachments);
+
+		var text = "Your options for nomination are ";
+
+		for (var i = 0; i < members.length; i++) {
+			// if(members[i] !== president){
+				text = text + i + ". <@"+members[i] + "> "
+			// }
+		}
+
+		slack.api('chat.postMessage', {
+			"channel": presidentChannel,
+		    "text": text,
+		    "attachments": attachmentString
+		}, function(err, response){
+
+			console.log(response)
+
+		})					
 
 
 
