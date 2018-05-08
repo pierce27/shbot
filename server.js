@@ -177,9 +177,9 @@ app.post('/', function (req, res) {
 				var text = "Your options for nomination are ";
 
 				for (var i = 0; i < members.length; i++) {
-					if(members[i] !== president){
+					// if(members[i] !== president){
 						text = text + i + ". <@"+members[i] + " "	
-					}
+					// }
 				}
 
 				slack.api('chat.postMessage', {
