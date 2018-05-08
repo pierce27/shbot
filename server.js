@@ -294,7 +294,7 @@ app.post('/component', function(req,res){
 
 	var callbackId = payload.callback_id;
 
-	if(callbackId == president_nomination){
+	if(callbackId == 'president_nomination'){
 		console.log(payload)
 
 
