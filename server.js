@@ -298,7 +298,7 @@ app.post('/component', function(req,res){
 		console.log(payload)
 
 
-		chancellor = payload.actions[0].value
+		chancellor = members[payload.actions[0].value]
 
 
 		var attachments = [
