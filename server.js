@@ -269,6 +269,8 @@ app.post('/component', function(req,res){
 
 	var callbackId = payload.callback_id;
 
+	res.sendStatus(200)
+
 	if(callbackId == 'president_nomination'){
 
 		
@@ -644,6 +646,7 @@ app.post('/component', function(req,res){
 
 	if(callbackId == 'chancellor_policy_callback'){
 
+
 		
 
 		var chancellorPolicyChoiceIndex = payload.actions[0].value;
@@ -717,8 +720,6 @@ app.post('/component', function(req,res){
 
 
 	}
-
-	res.sendStatus(200)
 
 
 	
