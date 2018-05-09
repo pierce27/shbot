@@ -36,7 +36,8 @@ var votesLeft = 0;
 var policies = ['FASCIST', 'FASCIST', 'FASCIST', 'FASCIST', 'FASCIST', 'FASCIST', 'FASCIST', 'FASCIST', 'FASCIST', 'FASCIST', 'FASCIST', 'LIBERAL', 'LIBERAL', 'LIBERAL', 'LIBERAL', 'LIBERAL', 'LIBERAL'];
 var presidentialPolicyOptions = [];
 var chancellorPolicyOptions = [];
-var enactedPolicies = [];
+var enactedLiberalPolicies = [];
+var enactedFascistPolicies = [];
 
 
 app.post('/', function (req, res) {
@@ -238,42 +239,16 @@ app.post('/', function (req, res) {
 		// End the game
 		if (message == 'end game' && user == 'U1EG6PYPR'){
 
-			gameInProgress = false;
-			fascists = [];
-			hitler = '';
-			liberals = [];
-			members = [];
-			presidentIndex = 0;
-			president = '';
-			chancellor = '';
-			yesVotes = [];
-			noVotes = [];
-			votesLeft = 0;
-			chancellorPolicyOptions = [];
-			presidentialPolicyOptions = [];
+			endGame()
 
 
 		}
 
 
 	}
-
-	if (channel == presidentChannel) {
-
-		chancellorPolicyOptions = message.split(' ')
-
-		if(chancellorPolicyOptions.length == 2 ){
-
-		}
-
-	}
-
-
-
-
 
 	res.sendStatus(200);
-  // res.send(req.body.challenge)
+
 })
 
 
@@ -295,9 +270,8 @@ app.post('/component', function(req,res){
 	var callbackId = payload.callback_id;
 
 	if(callbackId == 'president_nomination'){
-		console.log(payload)
 
-		res.sendStatus(200)
+		
 
 		chancellor = members[payload.actions[0].value]
 
@@ -405,13 +379,43 @@ app.post('/component', function(req,res){
 
 				slack.api('chat.postMessage', {
 					channel: secretHitlerChannel,
-					text: 'Resolution for <@' + chancellor + '> as chancellor not passed <@' + president + '> is now president. Nominate a chancellor!'
+					text: 'Resolution for <@' + chancellor + '> as chancellor not passed by a vote of' + noVotes.length ' to ' + yesVotes.length + ' <@' + president + '> is now president. Nominate a chancellor!'
 				}, function(err, response){
 
 					// console.log(response)
-					failedResolutions = failedResolutions + 1;
+					
 
 				})
+
+				failedResolutions = failedResolutions + 1;
+
+				if (failedResolutions == 3){
+
+					// Pick randomn policy
+					policyIndex = Math.floor(Math.random()*policies.length);
+
+				   	randomPolicy = policies[policyIndex]
+				   	
+				   	if(randomPolicy == 'FASCIST'){
+				   		enactedFascistPolicies.push(randomPolicy)
+				   	} else {
+				   		enactedLiberalPolicies.push(randomPolicy)
+				   	}
+
+				   	policies.splice(policyIndex, 1);					
+	
+					slack.api('chat.postMessage', {
+						channel: secretHitlerChannel,
+						text: 'CHAOS!!! A ' + randomPolicy + ' has been enacted. There are ' + enactedFascistPolicies.length + ' FASCIST policies and '
+						+ enactedLiberalPolicies.length + ' LIBERAL policies enacted' 
+					}, function(err, response){
+
+						// console.log(response)
+						failedResolutions = 0;
+
+					})					
+
+				}
 
 				slack.api('groups.invite', {
 					user: president,
@@ -489,6 +493,7 @@ app.post('/component', function(req,res){
 			   var i = 0;
 			   while(i < 3 ){
 
+			   	
 			   	policyIndex = Math.floor(Math.random()*policies.length);
 
 			   	presidentialPolicyOptions.push(policies[policyIndex]);
@@ -536,7 +541,6 @@ app.post('/component', function(req,res){
 
 
 			}
-			res.sendStatus(200)
 		}
 
 		return
@@ -633,58 +637,43 @@ app.post('/component', function(req,res){
 		}
 
 		
-		res.sendStatus(200)
+		
 		
 
 	}
 
 	if(callbackId == 'chancellor_policy_callback'){
 
-		res.sendStatus(200)
+		
 
 		var chancellorPolicyChoiceIndex = payload.actions[0].value;
 		chancellorPolicyChoice = chancellorPolicyOptions[chancellorPolicyChoiceIndex]
 
-		enactedPolicies.push(chancellorPolicyChoice);
+		if (chancellorPolicyChoice == 'FASCIST'){
+			enactedFascistPolicies.push(chancellorPolicyChoice)
+		} else {
+			enactedLiberalPolicies.push(chancellorPolicyChoice)
+		}
+		
 		chancellorPolicyOptions.splice(chancellorPolicyChoiceIndex, 1);
 		policies.push(chancellorPolicyOptions[0]);
 		chancellorPolicyOptions = [];
 
-		slack.api('groups.kick', {
-			user: president,
-			channel: presidentChannel
-		}, function(err, response){
 
-			console.log(response)
 
-		})					
-
-		slack.api('groups.kick', {
-			user: chancellor,
-			channel: chancellorChannel
-		}, function(err, response){
-
-			console.log(response)
-
-		})									
-
-		if(presidentIndex < members.length - 1){
-			presidentIndex = presidentIndex + 1;
+		if (enactedFascistPolicies.length == 6){
+			fascistsWin(false);
+		} else if (enactedLiberalPolicies.length == 6) {
+			liberalsWin(false);
 		} else {
-			presidentIndex = 0;
+			newRound();
 		}
-
-		president = members[presidentIndex];
-		chancellor = '';
-		yesVotes = [];
-		noVotes = [];	
-
-
+		
 
 		slack.api('chat.postMessage', {
 			"channel": secretHitlerChannel,
-		    "text": "A "+ chancellorPolicyChoice + " policy has been enacted! Enacted Policies are " + enactedPolicies +
-		    " The new president is <@" + president + ">, nominate a chancellor!!"
+		    "text": "A "+ chancellorPolicyChoice + " policy has been enacted! There are " + enactedLiberalPolicies.length +
+		    " LIBERAL policies and " + enactedFascistPolicies.length + " FASCIST policies enacted. The new president is <@" + president + ">, nominate a chancellor!!"
 		}, function(err, response){
 
 			console.log(response)
@@ -729,10 +718,47 @@ app.post('/component', function(req,res){
 
 	}
 
+	res.sendStatus(200)
 
 
 	
 })
+
+var newRound = function(){
+
+	slack.api('groups.kick', {
+		user: president,
+		channel: presidentChannel
+	}, function(err, response){
+
+		console.log(response)
+
+	})					
+
+	slack.api('groups.kick', {
+		user: chancellor,
+		channel: chancellorChannel
+	}, function(err, response){
+
+		console.log(response)
+
+	})									
+
+	if(presidentIndex < members.length - 1){
+		presidentIndex = presidentIndex + 1;
+	} else {
+		presidentIndex = 0;
+	}
+
+	president = members[presidentIndex];
+	chancellor = '';
+	yesVotes = [];
+	noVotes = [];
+	chancellorPolicyChoice = '';
+	chancellorPolicyChoiceIndex = 0;
+	presidentialPolicyOptions = [];
+	presidentialPolicyChoiceIndex = 0;	
+}
 
 var createActions = function(options, memberActions){
 	
@@ -760,6 +786,53 @@ var createActions = function(options, memberActions){
 
 	// console.log('ARRAY!!'+ actionsArray)
 	return actionsArray	
+}
+
+
+var fascistsWin = function(chancellorIsHitler){
+	
+	if (chancellorIsHitler){
+		console.log("HITLER IS Chancellor!! fascistsWin")
+	} else {
+		console.log("Fascist policies enacted!!")
+	}
+
+	endGame()
+}
+
+var liberalsWin = function(hitlerIsKilled){
+	
+	if (hitlerIsKilled){
+		console.log("YOU Killed HItler!")
+	} else {
+		console.log("liberal Policies enacted!!")
+
+	}
+
+	endGame()
+}
+
+var endGame = function(){
+	var fascists = [];
+	var hitler = '';
+	var liberals = [];
+	var members = [];
+
+	var presidentIndex = 0;
+	var president = '';
+	var chancellor = '';
+	var chancellors = [];
+	var failedResolutions = 0;
+
+	var yesVotes = [];
+	var noVotes = [];
+	var votesLeft = 0;
+
+	var policies = ['FASCIST', 'FASCIST', 'FASCIST', 'FASCIST', 'FASCIST', 'FASCIST', 'FASCIST', 'FASCIST', 'FASCIST', 'FASCIST', 'FASCIST', 'LIBERAL', 'LIBERAL', 'LIBERAL', 'LIBERAL', 'LIBERAL', 'LIBERAL'];
+	var presidentialPolicyOptions = [];
+	var chancellorPolicyOptions = [];
+	var enactedLiberalPolicies = [];
+	var enactedFascistPolicies = [];
 }
 
 app.listen(process.env.PORT || 3000)
