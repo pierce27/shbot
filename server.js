@@ -436,9 +436,9 @@ app.post('/component', function(req,res){
 
 					for (var i = 0; i < members.length; i++) {
 						// TODO
-						// if(members[i] !== president){
+						if(members[i] !== president){
 							text = text + i + ". <@"+members[i] + "> "
-						// }
+						}
 					}
 
 					slack.api('chat.postMessage', {
@@ -656,7 +656,7 @@ app.post('/component', function(req,res){
 
 		slack.api('chat.postMessage', {
 			"channel": secretHitlerChannel,
-		    "text": "A "+ chancellorPolicyChoice + " policy has been enacted! There are " + enactedLiberalPolicies.length +
+		    "text": "<@+" chancellor + "> has enacted a "+ chancellorPolicyChoice + " policy!!! There are " + enactedLiberalPolicies.length +
 		    " LIBERAL policies and " + enactedFascistPolicies.length + " FASCIST policies enacted. The new president is <@" + president + ">, nominate a chancellor!!"
 		}, function(err, response){
 
@@ -697,9 +697,9 @@ app.post('/component', function(req,res){
 
 		for (var i = 0; i < members.length; i++) {
 			// TODO
-			// if(members[i] !== president){
+			if(members[i] !== president){
 				text = text + i + ". <@"+members[i] + "> "
-			// }
+			}
 		}
 
 		slack.api('chat.postMessage', {
