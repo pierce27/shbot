@@ -656,7 +656,7 @@ app.post('/component', function(req,res){
 
 		slack.api('chat.postMessage', {
 			"channel": secretHitlerChannel,
-		    "text": "<@+" chancellor + "> has enacted a "+ chancellorPolicyChoice + " policy!!! There are " + enactedLiberalPolicies.length +
+		    "text": "<@"+ chancellor + "> has enacted a "+ chancellorPolicyChoice + " policy!!! There are " + enactedLiberalPolicies.length +
 		    " LIBERAL policies and " + enactedFascistPolicies.length + " FASCIST policies enacted. The new president is <@" + president + ">, nominate a chancellor!!"
 		}, function(err, response){
 
