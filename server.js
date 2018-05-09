@@ -757,15 +757,16 @@ var createActions = function(options, memberActions){
 	
 	var actionsArray = []
 
-	var option = 	{
-	    "name": "policy",
-	    "text": '',
-	    "type": "button",
-	    "value": ''
-	}
+
 
 
 	for (var i = 0; i < options.length; i++) {
+		var option = 	{
+		    "name": "policy",
+		    "text": '',
+		    "type": "button",
+		    "value": ''
+		}		
 		option.name = options[i];
 		if(memberActions){
 			option.text = i;	
@@ -774,9 +775,9 @@ var createActions = function(options, memberActions){
 		}
 		
 		option.value = i;
-		console.log('OPTION::' + option)
+
 		actionsArray.push(option);
-		console.log('TEXT!!!: '+option.text)
+		console.log('TEXT!!!: '+ option.text)
 		console.log('OPTION!!:' + options[i])
 	}
 
