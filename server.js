@@ -473,7 +473,7 @@ app.post('/component', function(req,res){
 
 				})
 
-				// TODO Resolution logic
+				
 			    slack.api('groups.invite', {
 			  	  user: chancellor,
 			  	  channel: chancellorChannel
@@ -694,6 +694,7 @@ app.post('/component', function(req,res){
 		var text = "Your options for nomination are ";
 
 		for (var i = 0; i < members.length; i++) {
+			// TODO
 			// if(members[i] !== president){
 				text = text + i + ". <@"+members[i] + "> "
 			// }
@@ -790,8 +791,27 @@ var fascistsWin = function(chancellorIsHitler){
 	
 	if (chancellorIsHitler){
 		console.log("HITLER IS Chancellor!! fascistsWin")
+
+		slack.api('chat.postMessage', {
+			"channel": secretHitlerChannel,
+		    "text": "HITLER IS CHANCELLOR!! FASCISTS WIN!!!"
+		}, function(err, response){
+
+			console.log(response)
+			
+
+		})			
 	} else {
 		console.log("Fascist policies enacted!!")
+		slack.api('chat.postMessage', {
+			"channel": secretHitlerChannel,
+		    "text": "FASCISTS POLICIES ENACTED!! FASCISTS WIN!!"
+		}, function(err, response){
+
+			console.log(response)
+			
+
+		})			
 	}
 
 	endGame()
@@ -801,8 +821,26 @@ var liberalsWin = function(hitlerIsKilled){
 	
 	if (hitlerIsKilled){
 		console.log("YOU Killed HItler!")
+		slack.api('chat.postMessage', {
+			"channel": secretHitlerChannel,
+		    "text": "YOU KILLED HITLER!! LIBERALS WIN!!"
+		}, function(err, response){
+
+			console.log(response)
+			
+
+		})				
 	} else {
 		console.log("liberal Policies enacted!!")
+		slack.api('chat.postMessage', {
+			"channel": secretHitlerChannel,
+		    "text": "Liberal Policies Enacted!! Liberals Win!!"
+		}, function(err, response){
+
+			console.log(response)
+			
+
+		})				
 
 	}
 
