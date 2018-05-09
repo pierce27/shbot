@@ -435,6 +435,7 @@ app.post('/component', function(req,res){
 					var text = "Your options for nomination are ";
 
 					for (var i = 0; i < members.length; i++) {
+						// TODO
 						// if(members[i] !== president){
 							text = text + i + ". <@"+members[i] + "> "
 						// }
@@ -763,6 +764,7 @@ var createActions = function(options, memberActions){
 	    "value": ''
 	}
 
+
 	for (var i = 0; i < options.length; i++) {
 		option.name = options[i];
 		if(memberActions){
@@ -774,6 +776,8 @@ var createActions = function(options, memberActions){
 		option.value = i;
 		console.log('OPTION::' + option)
 		actionsArray.push(option);
+		console.log('TEXT!!!: '+option.text)
+		console.log('OPTION!!:' + options[i])
 	}
 
 	// console.log('ARRAY!!'+ actionsArray)
