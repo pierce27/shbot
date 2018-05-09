@@ -379,7 +379,7 @@ app.post('/component', function(req,res){
 
 				slack.api('chat.postMessage', {
 					channel: secretHitlerChannel,
-					text: 'Resolution for <@' + chancellor + '> as chancellor not passed by a vote of' + noVotes.length ' to ' + yesVotes.length + ' <@' + president + '> is now president. Nominate a chancellor!'
+					text: 'Resolution for <@' + chancellor + '> as chancellor not passed by a vote of' + noVotes.length + ' to ' + yesVotes.length + ' <@' + president + '> is now president. Nominate a chancellor!'
 				}, function(err, response){
 
 					// console.log(response)
