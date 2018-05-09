@@ -318,27 +318,9 @@ app.post('/component', function(req,res){
 	if (callbackId == "chancellor_vote"){
 
 		if(vote == 'yes'){
-			yesVotes.push(user);
-			slack.api('chat.postMessage', {
-				"channel": secretHitlerChannel,
-			    "text": "<@"+user+"> has voted "+vote+". Vote count: "+yesVotes.length+" yes votes and "+noVotes.length+" no votes"
-			}, function(err, response){
-
-				console.log(response)
-				
-
-			})				
+			yesVotes.push(user);		
 		} else if (vote == 'no'){
-			noVotes.push(user);
-			slack.api('chat.postMessage', {
-				"channel": secretHitlerChannel,
-			    "text": "<@"+user+"> has voted "+vote+". Vote count: "+yesVotes.length+" yes votes and "+noVotes.length+" no votes"
-			}, function(err, response){
-
-				console.log(response)
-				
-
-			})				
+			noVotes.push(user);	
 		} 
 
 		console.log('YES VOTES: ' + yesVotes);
@@ -348,20 +330,29 @@ app.post('/component', function(req,res){
 
 		if(totalVotes < members.length){
 
-
-			
 			slack.api('chat.postMessage', {
-				channel: secretHitlerChannel,
-				text:  votesLeft + ' votes remaining, ' + yesVotes.length + ' voted yes, ' + noVotes.length + ' voted no'
+				"channel": secretHitlerChannel,
+			    "text": "<@"+user+"> has voted "+vote+". Vote count: "+yesVotes.length+" yes votes and "+noVotes.length+" no votes"
 			}, function(err, response){
 
-				// console.log(response)
+				console.log(response)
+				
 
-			})					
+			})						
+
+			
+			// slack.api('chat.postMessage', {
+			// 	channel: secretHitlerChannel,
+			// 	text:  votesLeft + ' votes remaining, ' + yesVotes.length + ' voted yes, ' + noVotes.length + ' voted no'
+			// }, function(err, response){
+
+			// 	// console.log(response)
+
+			// })					
 
 		} else {
 
-			if(noVotes.length > yesVotes.length){
+			if(noVotes.length >= yesVotes.length){
 				if(presidentIndex < members.length - 1){
 					presidentIndex = presidentIndex + 1;
 				} else {
@@ -381,7 +372,7 @@ app.post('/component', function(req,res){
 
 				slack.api('chat.postMessage', {
 					channel: secretHitlerChannel,
-					text: 'Resolution for <@' + chancellor + '> as chancellor not passed by a vote of' + noVotes.length + ' to ' + yesVotes.length + ' <@' + president + '> is now president. Nominate a chancellor!'
+					text: 'Resolution for <@' + chancellor + '> as chancellor not passed by a vote of ' + noVotes.length + ' to ' + yesVotes.length + ' <@' + president + '> is now president. Nominate a chancellor!'
 				}, function(err, response){
 
 					// console.log(response)
