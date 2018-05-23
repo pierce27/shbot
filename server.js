@@ -44,7 +44,7 @@ app.post('/', function (req, res) {
   // res.send('hello world')
 	console.log(req.body)
 
-	if(req.body.event.subtype == 'bot_message' || req.body.event.subtype == 'message_changed'){
+	if(req.body.event.subtype){
 		res.sendStatus(200)
 		return
 	}
@@ -90,8 +90,10 @@ app.post('/', function (req, res) {
 
 			  // Remove bot from members
 			  var botIndex = members.indexOf('UAJ290DDY');
+			  var pierceIndex = members.indexOf('U1EG6PYPR')
 			  if (botIndex >= 0) {
 					  members.splice( botIndex, 1 );
+					  members.splice( pierceIndex, 1 );
 			  }		  
 
 			  liberals = members
@@ -141,12 +143,46 @@ app.post('/', function (req, res) {
 
 			  president = members[presidentIndex];
 
-				  slack.api('groups.invite', {
+			  slack.api('groups.invite', {
 				user: president,
 				channel: presidentChannel
 			  }, function(err, response){
 
-				console.log(response)
+					console.log(response)
+					var attachments = [
+						{
+					    "text": "Nominate a chancellor",
+					    "fallback": "You are unable to nominate a chancellor",
+					    "callback_id": "president_nomination",
+					    "color": "#3AA3E3",
+					    "attachment_type": "default",
+					    "actions": []
+						}
+					]
+
+					var chancellorOptions = members
+					chancellorOptions.splice(presidentIndex, 1)
+					attachments[0].actions = createActions(chancellorOptions, true);						
+
+					var attachmentString = JSON.stringify(attachments);
+
+					var text = "Your options for nomination are ";
+
+					for (var i = 0; i < chancellorOptions.length; i++) {
+						// if(members[i] !== president){
+							text = text + i + ". <@"+chancellorOptions[i] + "> "
+						// }
+					}
+
+					slack.api('chat.postMessage', {
+						"channel": presidentChannel,
+					    "text": text,
+					    "attachments": attachmentString
+					}, function(err, response){
+
+						console.log(response)
+
+					})					
 
 			  })			  
 
@@ -160,38 +196,7 @@ app.post('/', function (req, res) {
 
 			  })
 
-				var attachments = [
-					{
-				    "text": "Nominate a chancellor",
-				    "fallback": "You are unable to nominate a chancellor",
-				    "callback_id": "president_nomination",
-				    "color": "#3AA3E3",
-				    "attachment_type": "default",
-				    "actions": []
-					}
-				]
-
-				attachments[0].actions = createActions(members, true);				
-
-				var attachmentString = JSON.stringify(attachments);
-
-				var text = "Your options for nomination are ";
-
-				for (var i = 0; i < members.length; i++) {
-					// if(members[i] !== president){
-						text = text + i + ". <@"+members[i] + "> "
-					// }
-				}
-
-				slack.api('chat.postMessage', {
-					"channel": presidentChannel,
-				    "text": text,
-				    "attachments": attachmentString
-				}, function(err, response){
-
-					console.log(response)
-
-				})										
+									
 
 
 			  console.log('MEMBERS: ' + members);
@@ -428,15 +433,17 @@ app.post('/component', function(req,res){
 						}
 					]
 
-					attachments[0].actions = createActions(members, true);				
+					var chancellorOptions = members
+					chancellorOptions.splice(presidentIndex, 1)
+					attachments[0].actions = createActions(chancellorOptions, true);				
 
 					var attachmentString = JSON.stringify(attachments);
 
 					var text = "Your options for nomination are ";
 
-					for (var i = 0; i < members.length; i++) {
+					for (var i = 0; i < chancellorOptions.length; i++) {
 						// TODO
-						if(members[i] !== president){
+						if(chancellorOptions[i] !== president){
 							text = text + i + ". <@"+members[i] + "> "
 						}
 					}
